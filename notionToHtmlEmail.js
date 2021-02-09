@@ -1,10 +1,11 @@
 
-  function getEmailWidth(document) {
+  function getEmailWidth() {
     var styles = getComputedStyle(document.body);
     return styles.maxWidth;
   }
 
-  function getMainEmailContent(document) {
+
+  function getMainEmailContent() {
     var emailContent = document.getElementsByClassName('page-body');
     if (emailContent) {
       emailContent = emailContent[0].childNodes;
@@ -44,6 +45,7 @@
     return text;
   }
 
+
   function getText(element) {
     var textStyles = getComputedStyle(element);
     var styles = [];
@@ -60,6 +62,7 @@
 
     return text;
   }
+
 
   function buildEmailBodyFromArray(elementList, emailWidth) {
     var rows = [];
@@ -84,7 +87,6 @@
   }
 
 
-
   function converToHtmlEmail(document) {
     var email = {
       'width': 0,
@@ -94,8 +96,8 @@
       '[footer]': []
     };
 
-    email.width = getEmailWidth(document);
-    email = categorizeContent(getMainEmailContent(document), email);
+    email.width = getEmailWidth();
+    email = categorizeContent(getMainEmailContent(), email);
     email["[subject]"] = getPlainTextFromArray(email["[subject]"]);
     email["[preheader]"] = getPlainTextFromArray(email["[preheader]"]);
     email["[body]"] = buildEmailBodyFromArray(email["[body]"], email.width);
@@ -204,5 +206,3 @@
 
     console.log("HTML", htmlEmail);
   }
-
-  //converToHtmlEmail();
