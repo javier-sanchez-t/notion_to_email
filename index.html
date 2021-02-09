@@ -875,16 +875,47 @@
 </body>
 
 <script>
-    var list = document.querySelectorAll('body *');
-   
-    console.log("list ", list);
-   
-    var subject = "";
-    var preheader = "";
-    var content = "";
-   
-   
-    var htmlEmail = `
+
+  var email = {
+    '[subject]': [],
+    '[preheader]': [],
+    '[body]': [],
+    '[footer]': []
+  };
+
+  var emailContent = document.getElementsByClassName('page-body');
+  if (emailContent) {
+    emailContent = emailContent[0].childNodes;
+  }
+
+
+  //Categorize content
+  var emailProperty = '';
+  for (var elementsCounter = 0; elementsCounter < emailContent.length; elementsCounter++) {
+    var property = emailContent[elementsCounter].textContent.trim().toLowerCase();
+
+    if (email[property]) {
+      emailProperty = property;
+      continue;
+    }
+
+    if (emailProperty) {
+      email[emailProperty].push(emailContent[elementsCounter]);
+    }
+  }
+
+  console.log(email);
+
+
+  //var subject = document.evaluate("//*[contains(text(), 'Subject')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+  //console.log("subject", subject);
+  //console.log("subject", subject.singleNodeValue.nextElementSibling);
+  var subject = "";
+  var preheader = "";
+  var content = "";
+
+
+  var htmlEmail = `
        <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
        <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
        
@@ -975,7 +1006,7 @@
         <table id="bodyTable" width="100%" style="margin: 0; padding:0;" border="0" cellpadding="0" cellspacing="0">
          <tr>
           <td align="center" valign="top">
-               ${content}
+            ${content}
           </td>
          </tr>
         </table>
@@ -984,7 +1015,9 @@
        
        </html>
    `;
-   
-   </script>
+
+  console.log("HTML", htmlEmail);
+
+</script>
 
 </html>
