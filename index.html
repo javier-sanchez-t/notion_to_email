@@ -1,881 +1,101 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Newsletter 12.06.20</title>
-  <style>
-    /* webkit printing magic: print all background colors */
-    html {
-      -webkit-print-color-adjust: exact;
-    }
-
-    * {
-      box-sizing: border-box;
-      -webkit-print-color-adjust: exact;
-    }
-
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-    }
-
-    @media only screen {
-      body {
-        margin: 2em auto;
-        max-width: 900px;
-        color: rgb(55, 53, 47);
-      }
-    }
-
-    body {
-      line-height: 1.5;
-      white-space: pre-wrap;
-    }
-
-    a,
-    a.visited {
-      color: inherit;
-      text-decoration: underline;
-    }
-
-    .pdf-relative-link-path {
-      font-size: 80%;
-      color: #444;
-    }
-
-    h1,
-    h2,
-    h3 {
-      letter-spacing: -0.01em;
-      line-height: 1.2;
-      font-weight: 600;
-      margin-bottom: 0;
-    }
-
-    .page-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-top: 0;
-      margin-bottom: 0.75em;
-    }
-
-    h1 {
-      font-size: 1.875rem;
-      margin-top: 1.875rem;
-    }
-
-    h2 {
-      font-size: 1.5rem;
-      margin-top: 1.5rem;
-    }
-
-    h3 {
-      font-size: 1.25rem;
-      margin-top: 1.25rem;
-    }
-
-    .source {
-      border: 1px solid #ddd;
-      border-radius: 3px;
-      padding: 1.5em;
-      word-break: break-all;
-    }
-
-    .callout {
-      border-radius: 3px;
-      padding: 1rem;
-    }
-
-    figure {
-      margin: 1.25em 0;
-      page-break-inside: avoid;
-    }
-
-    figcaption {
-      opacity: 0.5;
-      font-size: 85%;
-      margin-top: 0.5em;
-    }
-
-    mark {
-      background-color: transparent;
-    }
-
-    .indented {
-      padding-left: 1.5em;
-    }
-
-    hr {
-      background: transparent;
-      display: block;
-      width: 100%;
-      height: 1px;
-      visibility: visible;
-      border: none;
-      border-bottom: 1px solid rgba(55, 53, 47, 0.09);
-    }
-
-    img {
-      max-width: 100%;
-    }
-
-    @media only print {
-      img {
-        max-height: 100vh;
-        object-fit: contain;
-      }
-    }
-
-    @page {
-      margin: 1in;
-    }
-
-    .collection-content {
-      font-size: 0.875rem;
-    }
-
-    .column-list {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .column {
-      padding: 0 1em;
-    }
-
-    .column:first-child {
-      padding-left: 0;
-    }
-
-    .column:last-child {
-      padding-right: 0;
-    }
-
-    .table_of_contents-item {
-      display: block;
-      font-size: 0.875rem;
-      line-height: 1.3;
-      padding: 0.125rem;
-    }
-
-    .table_of_contents-indent-1 {
-      margin-left: 1.5rem;
-    }
-
-    .table_of_contents-indent-2 {
-      margin-left: 3rem;
-    }
-
-    .table_of_contents-indent-3 {
-      margin-left: 4.5rem;
-    }
-
-    .table_of_contents-link {
-      text-decoration: none;
-      opacity: 0.7;
-      border-bottom: 1px solid rgba(55, 53, 47, 0.18);
-    }
-
-    table,
-    th,
-    td {
-      border: 1px solid rgba(55, 53, 47, 0.09);
-      border-collapse: collapse;
-    }
-
-    table {
-      border-left: none;
-      border-right: none;
-    }
-
-    th,
-    td {
-      font-weight: normal;
-      padding: 0.25em 0.5em;
-      line-height: 1.5;
-      min-height: 1.5em;
-      text-align: left;
-    }
-
-    th {
-      color: rgba(55, 53, 47, 0.6);
-    }
-
-    ol,
-    ul {
-      margin: 0;
-      margin-block-start: 0.6em;
-      margin-block-end: 0.6em;
-    }
-
-    li>ol:first-child,
-    li>ul:first-child {
-      margin-block-start: 0.6em;
-    }
-
-    ul>li {
-      list-style: disc;
-    }
-
-    ul.to-do-list {
-      text-indent: -1.7em;
-    }
-
-    ul.to-do-list>li {
-      list-style: none;
-    }
-
-    .to-do-children-checked {
-      text-decoration: line-through;
-      opacity: 0.375;
-    }
-
-    ul.toggle>li {
-      list-style: none;
-    }
-
-    ul {
-      padding-inline-start: 1.7em;
-    }
-
-    ul>li {
-      padding-left: 0.1em;
-    }
-
-    ol {
-      padding-inline-start: 1.6em;
-    }
-
-    ol>li {
-      padding-left: 0.2em;
-    }
-
-    .mono ol {
-      padding-inline-start: 2em;
-    }
-
-    .mono ol>li {
-      text-indent: -0.4em;
-    }
-
-    .toggle {
-      padding-inline-start: 0em;
-      list-style-type: none;
-    }
-
-    /* Indent toggle children */
-    .toggle>li>details {
-      padding-left: 1.7em;
-    }
-
-    .toggle>li>details>summary {
-      margin-left: -1.1em;
-    }
-
-    .selected-value {
-      display: inline-block;
-      padding: 0 0.5em;
-      background: rgba(206, 205, 202, 0.5);
-      border-radius: 3px;
-      margin-right: 0.5em;
-      margin-top: 0.3em;
-      margin-bottom: 0.3em;
-      white-space: nowrap;
-    }
-
-    .collection-title {
-      display: inline-block;
-      margin-right: 1em;
-    }
-
-    time {
-      opacity: 0.5;
-    }
-
-    .icon {
-      display: inline-block;
-      max-width: 1.2em;
-      max-height: 1.2em;
-      text-decoration: none;
-      vertical-align: text-bottom;
-      margin-right: 0.5em;
-    }
-
-    img.icon {
-      border-radius: 3px;
-    }
-
-    .user-icon {
-      width: 1.5em;
-      height: 1.5em;
-      border-radius: 100%;
-      margin-right: 0.5rem;
-    }
-
-    .user-icon-inner {
-      font-size: 0.8em;
-    }
-
-    .text-icon {
-      border: 1px solid #000;
-      text-align: center;
-    }
-
-    .page-cover-image {
-      display: block;
-      object-fit: cover;
-      width: 100%;
-      height: 30vh;
-    }
-
-    .page-header-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-
-    .page-header-icon-with-cover {
-      margin-top: -0.72em;
-      margin-left: 0.07em;
-    }
-
-    .page-header-icon img {
-      border-radius: 3px;
-    }
-
-    .link-to-page {
-      margin: 1em 0;
-      padding: 0;
-      border: none;
-      font-weight: 500;
-    }
-
-    p>.user {
-      opacity: 0.5;
-    }
-
-    td>.user,
-    td>time {
-      white-space: nowrap;
-    }
-
-    input[type="checkbox"] {
-      transform: scale(1.5);
-      margin-right: 0.6em;
-      vertical-align: middle;
-    }
-
-    p {
-      margin-top: 0.5em;
-      margin-bottom: 0.5em;
-    }
-
-    .image {
-      border: none;
-      margin: 1.5em 0;
-      padding: 0;
-      border-radius: 0;
-      text-align: center;
-    }
-
-    .code,
-    code {
-      background: rgba(135, 131, 120, 0.15);
-      border-radius: 3px;
-      padding: 0.2em 0.4em;
-      border-radius: 3px;
-      font-size: 85%;
-      tab-size: 2;
-    }
-
-    code {
-      color: #eb5757;
-    }
-
-    .code {
-      padding: 1.5em 1em;
-    }
-
-    .code-wrap {
-      white-space: pre-wrap;
-      word-break: break-all;
-    }
-
-    .code>code {
-      background: none;
-      padding: 0;
-      font-size: 100%;
-      color: inherit;
-    }
-
-    blockquote {
-      font-size: 1.25em;
-      margin: 1em 0;
-      padding-left: 1em;
-      border-left: 3px solid rgb(55, 53, 47);
-    }
-
-    .bookmark {
-      text-decoration: none;
-      max-height: 8em;
-      padding: 0;
-      display: flex;
-      width: 100%;
-      align-items: stretch;
-    }
-
-    .bookmark-title {
-      font-size: 0.85em;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      height: 1.75em;
-      white-space: nowrap;
-    }
-
-    .bookmark-text {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .bookmark-info {
-      flex: 4 1 180px;
-      padding: 12px 14px 14px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .bookmark-image {
-      width: 33%;
-      flex: 1 1 180px;
-      display: block;
-      position: relative;
-      object-fit: cover;
-      border-radius: 1px;
-    }
-
-    .bookmark-description {
-      color: rgba(55, 53, 47, 0.6);
-      font-size: 0.75em;
-      overflow: hidden;
-      max-height: 4.5em;
-      word-break: break-word;
-    }
-
-    .bookmark-href {
-      font-size: 0.75em;
-      margin-top: 0.25em;
-    }
-
-    .sans {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
-    }
-
-    .code {
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    }
-
-    .serif {
-      font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif;
-    }
-
-    .mono {
-      font-family: iawriter-mono, Nitti, Menlo, Courier, monospace;
-    }
-
-    .pdf .sans {
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR';
-    }
-
-    .pdf .code {
-      font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR';
-    }
-
-    .pdf .serif {
-      font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR';
-    }
-
-    .pdf .mono {
-      font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR';
-    }
-
-    .highlight-default {}
-
-    .highlight-gray {
-      color: rgb(155, 154, 151);
-    }
-
-    .highlight-brown {
-      color: rgb(100, 71, 58);
-    }
-
-    .highlight-orange {
-      color: rgb(217, 115, 13);
-    }
-
-    .highlight-yellow {
-      color: rgb(223, 171, 1);
-    }
-
-    .highlight-teal {
-      color: rgb(15, 123, 108);
-    }
-
-    .highlight-blue {
-      color: rgb(11, 110, 153);
-    }
-
-    .highlight-purple {
-      color: rgb(105, 64, 165);
-    }
-
-    .highlight-pink {
-      color: rgb(173, 26, 114);
-    }
-
-    .highlight-red {
-      color: rgb(224, 62, 62);
-    }
-
-    .highlight-gray_background {
-      background: rgb(235, 236, 237);
-    }
-
-    .highlight-brown_background {
-      background: rgb(233, 229, 227);
-    }
-
-    .highlight-orange_background {
-      background: rgb(250, 235, 221);
-    }
-
-    .highlight-yellow_background {
-      background: rgb(251, 243, 219);
-    }
-
-    .highlight-teal_background {
-      background: rgb(221, 237, 234);
-    }
-
-    .highlight-blue_background {
-      background: rgb(221, 235, 241);
-    }
-
-    .highlight-purple_background {
-      background: rgb(234, 228, 242);
-    }
-
-    .highlight-pink_background {
-      background: rgb(244, 223, 235);
-    }
-
-    .highlight-red_background {
-      background: rgb(251, 228, 228);
-    }
-
-    .block-color-default {
-      color: inherit;
-      fill: inherit;
-    }
-
-    .block-color-gray {
-      color: rgba(55, 53, 47, 0.6);
-      fill: rgba(55, 53, 47, 0.6);
-    }
-
-    .block-color-brown {
-      color: rgb(100, 71, 58);
-      fill: rgb(100, 71, 58);
-    }
-
-    .block-color-orange {
-      color: rgb(217, 115, 13);
-      fill: rgb(217, 115, 13);
-    }
-
-    .block-color-yellow {
-      color: rgb(223, 171, 1);
-      fill: rgb(223, 171, 1);
-    }
-
-    .block-color-teal {
-      color: rgb(15, 123, 108);
-      fill: rgb(15, 123, 108);
-    }
-
-    .block-color-blue {
-      color: rgb(11, 110, 153);
-      fill: rgb(11, 110, 153);
-    }
-
-    .block-color-purple {
-      color: rgb(105, 64, 165);
-      fill: rgb(105, 64, 165);
-    }
-
-    .block-color-pink {
-      color: rgb(173, 26, 114);
-      fill: rgb(173, 26, 114);
-    }
-
-    .block-color-red {
-      color: rgb(224, 62, 62);
-      fill: rgb(224, 62, 62);
-    }
-
-    .block-color-gray_background {
-      background: rgb(235, 236, 237);
-    }
-
-    .block-color-brown_background {
-      background: rgb(233, 229, 227);
-    }
-
-    .block-color-orange_background {
-      background: rgb(250, 235, 221);
-    }
-
-    .block-color-yellow_background {
-      background: rgb(251, 243, 219);
-    }
-
-    .block-color-teal_background {
-      background: rgb(221, 237, 234);
-    }
-
-    .block-color-blue_background {
-      background: rgb(221, 235, 241);
-    }
-
-    .block-color-purple_background {
-      background: rgb(234, 228, 242);
-    }
-
-    .block-color-pink_background {
-      background: rgb(244, 223, 235);
-    }
-
-    .block-color-red_background {
-      background: rgb(251, 228, 228);
-    }
-
-    .select-value-color-default {
-      background-color: rgba(206, 205, 202, 0.5);
-    }
-
-    .select-value-color-gray {
-      background-color: rgba(155, 154, 151, 0.4);
-    }
-
-    .select-value-color-brown {
-      background-color: rgba(140, 46, 0, 0.2);
-    }
-
-    .select-value-color-orange {
-      background-color: rgba(245, 93, 0, 0.2);
-    }
-
-    .select-value-color-yellow {
-      background-color: rgba(233, 168, 0, 0.2);
-    }
-
-    .select-value-color-green {
-      background-color: rgba(0, 135, 107, 0.2);
-    }
-
-    .select-value-color-blue {
-      background-color: rgba(0, 120, 223, 0.2);
-    }
-
-    .select-value-color-purple {
-      background-color: rgba(103, 36, 222, 0.2);
-    }
-
-    .select-value-color-pink {
-      background-color: rgba(221, 0, 129, 0.2);
-    }
-
-    .select-value-color-red {
-      background-color: rgba(255, 0, 26, 0.2);
-    }
-
-    .checkbox {
-      display: inline-flex;
-      vertical-align: text-bottom;
-      width: 16;
-      height: 16;
-      background-size: 16px;
-      margin-left: 2px;
-      margin-right: 5px;
-    }
-
-    .checkbox-on {
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
-    }
-
-    .checkbox-off {
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
-    }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ <title>Document</title>
+
+ <link rel="preconnect" href="https://fonts.gstatic.com">
+ <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+ <style>
+  * {
+   font-family: 'Open Sans', sans-serif;
+  }
+
+  .bookmarklet:hover {
+   background-color: #0a342e;
+   transition: 0.8s;
+  }
+
+  .bookmarklet {
+   background-color: #3cc1a2;
+   padding: 3px 15px 3px 15px;
+   border-radius: 5px;
+   color: #ffffff;
+   text-decoration: none;
+   transition: 0.4ms;
+  }
+
+  .header {
+   padding-top: 20px;
+   padding-bottom: 20px;
+   border-bottom: 3px solid #3cc1a2;
+  }
+
+  .body {
+   padding: 30px;
+  }
+
+  .container {
+   background-color: #f4faf9;
+   border-radius: 15px;
+   box-shadow: 5px 10px #cdcdcd;
+  }
+
+  @media only screen and (max-width: 500px) {
+   .container {
+    width: 100% !important;
+   }
+  }
+ </style>
 </head>
 
 <body>
-  <article id="f215bc74-111d-48ec-9e42-d64181266c9e" class="page sans">
-    <header>
-      <h1 class="page-title"><strong>Newsletter 12.06.20</strong></h1>
-    </header>
-    <div class="page-body">
-      <h1 id="9af0c67e-94b1-4f56-a4bd-068abd704f9c" class="">[Subject]</h1>
-      <p id="0ec2484d-b461-4db9-9f24-53d74d975e1d" class="">Salesforce team behind Slack acquisition, and more!</p>
-      <h1 id="792d7fed-a25e-405b-b633-67c5731b36fc" class="">[Preheader]</h1>
-      <p id="7ade68a5-1060-4f28-a85f-60a743f85490" class="">Insights on Salesforce, eBay, The NFL and Nine Chicago
-        Startups Poised for Huge Growth in 2021. This week, we looked at the team behind Salesforce’s record breaking
-        acquisition of Slack. We IDed nine early-stage startups in Chicago that are poised for serious growth in 2021,
-        and 10 rising black owned startups in London. And we looked back at the most important executive departures and
-        additions of the week.</p>
-      <h1 id="6a733344-16fa-4221-9c0e-5dad3f8c3a3c" class="">[Body]</h1>
-      <figure id="27f1a7f6-1316-4fbf-8cdd-689574dc52da" class="image"><a
-          href="https://images.unsplash.com/photo-1550399504-8953e1a6ac87?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb"><img
-            src="https://images.unsplash.com/photo-1550399504-8953e1a6ac87?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" /></a>
-      </figure>
-      <p id="94441da7-bdea-4fd6-870f-e589db9a2927" class="">This week, we looked at the team behind Salesforce’s record
-        breaking acquisition of Slack. We IDed nine early-stage startups in Chicago that are poised for serious growth
-        in 2021, and 10 rising black owned startups in London. And we looked back at the most important executive
-        departures and additions of the week.</p>
-      <p id="1604adf3-9ab6-4b97-829b-a0567f96be69" class="">
-      </p>
-      <div id="f78b9847-041d-4154-b72c-515327b5d4a5" class="column-list">
-        <div id="858fbdf5-0921-47cc-bc6e-5ba4f8ea600b" style="width:33.333333333333336%" class="column">
-          <figure id="11aafd2a-6d1f-477c-90b6-4e559b3f0d37" class="image"><a
-              href="https://images.unsplash.com/photo-1553194587-b010d08c6c56?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb"><img
-                src="https://images.unsplash.com/photo-1553194587-b010d08c6c56?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" /></a>
-          </figure>
-          <p id="2cbcea58-4810-4bca-a0d7-08029ddccb7f" class="">
-          </p>
-          <p id="e9ef547d-9fc7-448e-9c73-32f6b7e9cd92" class="">Salesforce Acquires Slack. Here&#x27;s the Executive
-            Team Making it Happen</p>
-          <p id="e9b7a90e-5619-4c20-9e8c-8c667dc704d0" class="">Salesforce has announced it&#x27;s buying workplace chat
-            app Slack for nearly 28 billion dollars, marking one of the biggest – and most valuable - recent deals in
-            the software industry. We looked at the people with power at Salesforce behind this important deal.</p>
-          <p id="99894c31-d176-4c48-b3b9-544d44e23ccd" class=""><a
-              href="https://theorg.com/insights/salesforce-acquires-slack-heres-the-executive-team-making-it-happen">https://theorg.com/insights/salesforce-acquires-slack-heres-the-executive-team-making-it-happen</a>
-          </p>
-          <p id="c156d76c-34cc-4a7f-9d48-b9a00b77b9e8" class="">By  <a href="mailto:anna.bradleysmith@gmail.com">Anna
-              Bradley-Smith</a></p>
-        </div>
-        <div id="49888a4e-3f24-4e2a-9649-e82a35ce9028" style="width:33.333333333333336%" class="column">
-          <figure id="07e45a91-55f5-4f98-a91b-b16473f3291e" class="image"><a
-              href="https://images.unsplash.com/photo-1593642634315-48f5414c3ad9?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb"><img
-                src="https://images.unsplash.com/photo-1593642634315-48f5414c3ad9?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" /></a>
-          </figure>
-          <p id="410871c2-ce54-4fe7-b95a-ebf881eedf76" class="">Nine Chicago Startups Poised for Huge Growth in 2021</p>
-          <p id="3f536779-7298-429c-897f-2b9719e6adde" class="">Chicago is the heart of the Midwest’s startup scene.
-            We’ve IDed nine early-stage startups that are poised for serious growth in 2021. They’ve all received major
-            investment in 2020 — the kind of support that can transform young companies from small, scrappy startups
-            into major players in their industries.</p>
-          <p id="fec96db1-9458-461c-a1a4-267522d1d19d" class=""><a
-              href="https://theorg.com/insights/nine-chicago-startups-poised-for-huge-growth-in-2021">https://theorg.com/insights/nine-chicago-startups-poised-for-huge-growth-in-2021</a>
-          </p>
-          <p id="e6509353-5dec-45ff-b9f6-667fee559ace" class="">By Rosalie Murphy</p>
-          <p id="741df0d9-a644-4a1c-8b03-ab1bf927bf60" class="">
-          </p>
-        </div>
-        <div id="2a8497b2-a8e8-426c-b215-d69e9d1c2a1d" style="width:33.33333333333333%" class="column">
-          <figure id="7cae4295-0891-4390-8ffd-64d4e704514d" class="image"><a
-              href="https://images.unsplash.com/photo-1590080874088-eec64895b423?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb"><img
-                src="https://images.unsplash.com/photo-1590080874088-eec64895b423?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" /></a>
-          </figure>
-          <p id="97de5971-85a8-4fbe-88e0-05288f023c89" class="">The 10 Most Important Executive Moves This Week</p>
-          <p id="2c52f406-28e5-4a31-9c04-43f8ddbb562a" class="">This week, Salesforce appointed a new CFO amongst the
-            chaos of its acquisition of Slack, eBay appointed a CMO, and there was a major switch up in the leadership
-            of the big banks.</p>
-          <p id="f29a3418-dea5-4e50-9325-46856b9f3b13" class="">These are our top picks for the most important executive
-            appointments and departures of the week.</p>
-          <p id="564edc83-fbb2-4934-8c0b-6d79c6023f5d" class=""><a
-              href="https://theorg.com/insights/the-10-most-important-executive-moves-this-week">https://theorg.com/insights/the-10-most-important-executive-moves-this-week</a>
-          </p>
-          <p id="38e420f8-3e7e-4b30-83d3-7c85630618f7" class="">By <a href="mailto:jade@theorg.com">Jade Cooper</a></p>
-        </div>
-      </div>
-      <h3 id="6449e43d-b6d5-4ae3-acdb-65da4a85cf6f" class="">More recent insights</h3>
-      <ul id="30db2ad7-bbb6-49aa-986f-3cbb9f95ec5b" class="bulleted-list">
-        <li>Inside the NFL: The Leadership Team Behind the Lions&#x27; Coaching Search / <a
-            href="https://theorg.com/insights/inside-the-nfl-the-leadership-team-behind-the-lions-coaching-search">https://theorg.com/insights/inside-the-nfl-the-leadership-team-behind-the-lions-coaching-search</a>
+ <table width="100%" style="margin: 0; padding:0;" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+   <td align="center" style="padding-top: 30px;">
+
+    <table class="container" width="500" border="0" cellpadding="0" cellspacing="0">
+     <tr>
+      <td align="center" class="header">
+       <img width="250" src="https://scalero.io/wp-content/uploads/2020/11/Logotype_Color.png" class="" alt="Scalero">
+      </td>
+     </tr>
+
+     <tr>
+      <td align="left" class="body">
+       Convert your <b>Notion</b> page into HTML email easy!
+       <br><br>
+       <b>Steps:</b>
+       <ol>
+        <li>
+         Install the Scalero bookmarklet <i style="font-weight: bold;">(just drag the next button to your toolbar)</i>
+         &nbsp;&nbsp;
+         <a class="bookmarklet"
+          href="javascript:(function()%7Bfunction%20callback()%7BnotionToHtmlEmail()%7Dvar%20s%3Ddocument.createElement(%22script%22)%3Bs.src%3D%22https%3A%2F%2Fjefe10jav.github.io%2Fnotion_to_email%2FnotionToHtmlEmail.js%22%3Bif(s.addEventListener)%7Bs.addEventListener(%22load%22%2Ccallback%2Cfalse)%7Delse%20if(s.readyState)%7Bs.onreadystatechange%3Dcallback%7Ddocument.body.appendChild(s)%3B%7D)()">Scalero</a>
+         <br><br>
         </li>
-      </ul>
-      <ul id="7cc04ddf-d1b8-413e-9ca4-da42f6a63748" class="bulleted-list">
-        <li>Ten Indiana Startups to Know in 2020 / https://theorg.com/insights/ten-indiana-startups-to-know-in-2020</li>
-      </ul>
-      <ul id="4cad8cfd-c61a-4dae-bf97-d03ea32af324" class="bulleted-list">
-        <li>Ten Rising Black-Owned Startups in the UK /
-          https://theorg.com/insights/ten-rising-black-owned-startups-in-the-uk</li>
-      </ul>
-      <p id="0283137b-9c9e-4fcc-9c6d-b473869bbb6f" class="">Cool Jobs</p>
-      <ol id="bf402eef-fe47-4838-98cf-dd3488238191" class="numbered-list" start="1">
-        <li>QEDIT - VP Engineering - https://theorg.com/org/qedit/jobs/vp-engineering</li>
-      </ol>
-      <ol id="6613eb5e-1633-48d0-a37c-b207734da145" class="numbered-list" start="2">
-        <li>Contentful - Director of Growth Marketing -
-          https://theorg.com/org/contentful/jobs/director-of-growth-market-335aa404</li>
-      </ol>
-      <ol id="fb4bcb94-8c91-493e-86a6-f9e7dacffb4a" class="numbered-list" start="3">
-        <li>Exoprise Systems - Customer Success / Solutions Engineer -
-          https://theorg.com/org/exoprise-systems/jobs/customer-success-solution-7de7478b</li>
-      </ol>
-      <h3 id="a7bf998a-944d-4a86-9fe8-8d0cb99b86ff" class="">Transparent team</h3>
-      <figure id="4b50b7c5-d351-4ba9-bef9-27a3b6f172d5" class="image"><a
-          href="https://images.unsplash.com/photo-1532357138332-dc8660cc3aa0?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb"><img
-            src="https://images.unsplash.com/photo-1532357138332-dc8660cc3aa0?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" /></a>
-      </figure>
-      <p id="d4be27d2-2f00-4d76-bf63-cbd8699c701a" class=""><strong>Jellyfish</strong></p>
-      <p id="3a6e46d8-c909-4c42-b6bb-c77972e97356" class="">Exceptional companies are built by exceptional teams. With
-        customers like Spotify, Slack, and McLaren, Jellyfish is clearly different. It’s also one of the world’s fastest
-        growing digital marketing agencies. Check out their team page and the 155 team members making it happen.</p>
-      <p id="2e8628c5-4c15-4a05-9640-40ebbcc7dd5e" class="">https://theorg.com/org/jellyfish/org-chart</p>
-      <h3 id="babd61e2-11ef-49b4-9c41-bd02c4778a39" class="">Explore more</h3>
-      <ul id="6a80b08b-5592-41dd-a47f-5da8fdd1230d" class="bulleted-list">
-        <li>Netflix / <a href="https://theorg.com/org/netflix">https://theorg.com/org/netflix</a> / 136 positions</li>
-      </ul>
-      <ul id="bee7dd46-be92-4e2c-a75b-e33ef0afabc3" class="bulleted-list">
-        <li>Nike / <a href="https://theorg.com/org/nike">https://theorg.com/org/nike</a> / 164 positions</li>
-      </ul>
-      <ul id="00b446fa-d5f7-4d1a-936b-0a299fe6d805" class="bulleted-list">
-        <li>Square / <a href="https://theorg.com/org/square">https://theorg.com/org/square</a> / 49 positions</li>
-      </ul>
-      <ul id="e2622dce-ea12-4801-bc08-01e677e460fe" class="bulleted-list">
-        <li>Dropbox / <a href="https://theorg.com/org/dropbox">https://theorg.com/org/dropbox</a> / 96 positions</li>
-      </ul>
-      <ul id="3bbce9ee-0767-4fcf-8f9a-d48fa7c71153" class="bulleted-list">
-        <li>Linkedin / <a href="https://theorg.com/org/linkedin/org-chart">https://theorg.com/org/linkedin/org-chart</a>
-          / 113 positions</li>
-      </ul>
-      <ul id="ae04f981-0557-47d8-9e7a-844cf40df443" class="bulleted-list">
-        <li>Spotify / <a href="https://theorg.com/org/spotify">https://theorg.com/org/spotify</a> / 109 positions</li>
-      </ul>
-      <h1 id="56756e43-8010-495e-b5e9-4d6b9f858d2f" class="">[Footer]</h1>
-      <p id="6a6f04b6-3324-40e7-a6c2-5e42280d90ba" class="">On a mission to make companies more transparent with public
-        org charts.</p>
-      <ul id="eb338e5f-1561-421f-9c4f-ad1ef81d3c30" class="bulleted-list">
-        <li><a href="https://www.facebook.com/theorgcom">Facebook</a></li>
-      </ul>
-      <ul id="091ee092-9dca-4ee1-a1ad-9987834beb22" class="bulleted-list">
-        <li><a href="https://twitter.com/theorgcom">Twitter</a></li>
-      </ul>
-      <ul id="422b910c-fe66-4d9a-9695-2f93ee5e7ec4" class="bulleted-list">
-        <li><a href="https://theorg.com/org/theorg">The Org</a></li>
-      </ul>
-      <p id="80077516-b0fd-4800-a977-be1da083d16d" class="">
-      </p>
-      <p id="7b89b4ff-88b1-4a69-ac9c-6b7dd1140410" class="">
-      </p>
-      <p id="1f594938-415a-41da-8a7c-9543e49f85f6" class="">
-      </p>
-    </div>
-  </article>
+        <li>
+         Export your notion page
+        </li>
+        <li>
+         Open the file with your browser
+        </li>
+        <li>
+         Click on the Scalero bookmarklet
+        </li>
+       </ol>
+      </td>
+     </tr>
+
+    </table>
+   </td>
+  </tr>
+ </table>
+
+
 </body>
 
-<script src="./notionToHtmlEmail.js"></script>
-<script>
-  init();
-</script>
 </html>
