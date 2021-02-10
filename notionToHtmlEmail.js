@@ -129,7 +129,7 @@ function downloadFile(filename, text) {
 }
 
 
-function converToHtmlEmail() {
+function notionToHtmlEmail() {
  var email = {
   'width': 0,
   '[subject]': [],
@@ -250,6 +250,6 @@ function converToHtmlEmail() {
 
 function init() {
  document.body.onload = function () {
-  converToHtmlEmail();
+  notionToHtmlEmail();
  };
 }
