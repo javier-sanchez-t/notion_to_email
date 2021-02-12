@@ -51,8 +51,8 @@ function getText(element) {
  styles.push('font-family: ' + textStyles.fontFamily.replace(/"/g, "'"));
  styles.push('font-size: ' + textStyles.fontSize);
  styles.push('line-height: ' + textStyles.lineHeight);
- styles.push('padding-top: ' + textStyles.marginTop);
- styles.push('padding-bottom: ' + textStyles.marginBottom);
+ styles.push('padding-top: ' + Math.round(textStyles.marginTop.replace('px', '')) + 'px');
+ styles.push('padding-bottom: ' + Math.round(textStyles.marginBottom.replace('px', '')) + 'px');
  styles.push('font-weight: ' + textStyles.fontWeight);
  styles.push('');
 
@@ -71,8 +71,8 @@ function getImage(element) {
  var image = element.firstElementChild.firstElementChild;
  var ImageStyles = getComputedStyle(element);
  var styles = [];
- styles.push('padding-top: ' + ImageStyles.marginTop);
- styles.push('padding-bottom: ' + ImageStyles.marginBottom);
+ styles.push('padding-top: ' + Math.round(ImageStyles.marginTop.replace('px', '')) + 'px');
+ styles.push('padding-bottom: ' + Math.round(ImageStyles.marginBottom.replace('px', '')) + 'px');
  styles.push('');
 
  var imageCode = `
@@ -89,6 +89,42 @@ function getImage(element) {
 }
 
 
+function getList(element) {
+ //Row styles
+ var rStyles = getComputedStyle(element);
+ var rowStyles = [];
+ rowStyles.push('padding-top: ' + Math.round(rStyles.marginTop.replace('px', '')) + 'px');
+ rowStyles.push('');
+
+ //Text styles
+ var tStyles = getComputedStyle(element.firstChild);
+ var textStyles = [];
+ textStyles.push('font-family: ' + tStyles.fontFamily.replace(/"/g, "'"));
+ textStyles.push('font-size: ' + tStyles.fontSize);
+ textStyles.push('line-height: ' + tStyles.lineHeight);
+ textStyles.push('font-weight: ' + tStyles.fontWeight);
+ textStyles.push('');
+
+ var startList = "";
+ if (element.nodeName == "OL") {
+  startList = 'start="' + element.start + '"';
+ }
+
+ var textCode = `
+       <tr>
+        <td align="left" style="${rowStyles.join('; ')}">
+         <${element.nodeName.toLowerCase()} ${startList} style="margin:0; margin-left: 25px; padding:0;">
+          <li style="${textStyles.join('; ')}">
+           ${element.firstChild.innerHTML}
+          </li>
+         </${element.nodeName.toLowerCase()}>
+        </td>
+       </tr>`;
+
+ return textCode;
+}
+
+
 function buildEmailBodyFromArray(elementList, emailWidth) {
  var rows = [];
  elementList.forEach(element => {
@@ -96,11 +132,13 @@ function buildEmailBodyFromArray(elementList, emailWidth) {
    return;
   }
 
-  //console.log("ELEMENT", element);
+
   if (element.nodeName == "P" || element.nodeName == "H1" || element.nodeName == "H2" || element.nodeName == "H3") {
    rows.push(getText(element));
   } else if (element.nodeName == "FIGURE") {
    rows.push(getImage(element));
+  } else if (element.nodeName == "UL" || element.nodeName == "OL") {
+   rows.push(getList(element));
   }
 
  });
