@@ -53,6 +53,7 @@ function getText(element) {
  styles.push('line-height: ' + textStyles.lineHeight);
  styles.push('padding-top: ' + textStyles.marginTop);
  styles.push('padding-bottom: ' + textStyles.marginBottom);
+ styles.push('font-weight: ' + textStyles.fontWeight);
  styles.push('');
 
  var textCode = `
@@ -96,7 +97,7 @@ function buildEmailBodyFromArray(elementList, emailWidth) {
   }
 
   //console.log("ELEMENT", element);
-  if (element.nodeName == "P" || element.nodeName == "H3") {
+  if (element.nodeName == "P" || element.nodeName == "H1" || element.nodeName == "H2" || element.nodeName == "H3") {
    rows.push(getText(element));
   } else if (element.nodeName == "FIGURE") {
    rows.push(getImage(element));
