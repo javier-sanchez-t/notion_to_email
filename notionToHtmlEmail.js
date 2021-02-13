@@ -66,20 +66,20 @@ function getPlainTextFromArray(elementList) {
 }
 
 function getText(element) {
- var textStyles = getComputedStyle(element);
- var styles = [];
- styles.push('color: ' + RGBToHex(textStyles.color));
- styles.push('font-family: ' + textStyles.fontFamily.replace(/"/g, "'"));
- styles.push('font-size: ' + textStyles.fontSize);
- styles.push('line-height: ' + textStyles.lineHeight);
- styles.push('padding-top: ' + Math.round(textStyles.marginTop.replace('px', '')) + 'px');
- styles.push('padding-bottom: ' + Math.round(textStyles.marginBottom.replace('px', '')) + 'px');
- styles.push('font-weight: ' + textStyles.fontWeight);
- styles.push('');
+ var styles = getComputedStyle(element);
+ var textStyles = [];
+ textStyles.push('color: ' + RGBToHex(styles.color));
+ textStyles.push('font-family: ' + styles.fontFamily.replace(/"/g, "'"));
+ textStyles.push('font-size: ' + styles.fontSize);
+ textStyles.push('line-height: ' + styles.lineHeight);
+ textStyles.push('padding-top: ' + Math.round(styles.marginTop.replace('px', '')) + 'px');
+ textStyles.push('padding-bottom: ' + Math.round(styles.marginBottom.replace('px', '')) + 'px');
+ textStyles.push('font-weight: ' + styles.fontWeight);
+ textStyles.push('');
 
  var textCode = `
        <tr>
-        <td align="left" style="${styles.join('; ')}">
+        <td align="left" style="${textStyles.join('; ')}">
          ${element.innerHTML}
         </td>
        </tr>`;
@@ -90,15 +90,15 @@ function getText(element) {
 
 function getImage(element) {
  var image = element.firstElementChild.firstElementChild;
- var ImageStyles = getComputedStyle(element);
- var styles = [];
- styles.push('padding-top: ' + Math.round(ImageStyles.marginTop.replace('px', '')) + 'px');
- styles.push('padding-bottom: ' + Math.round(ImageStyles.marginBottom.replace('px', '')) + 'px');
- styles.push('');
+ var styles = getComputedStyle(element);
+ var rowStyles = [];
+ rowStyles.push('padding-top: ' + Math.round(styles.marginTop.replace('px', '')) + 'px');
+ rowStyles.push('padding-bottom: ' + Math.round(styles.marginBottom.replace('px', '')) + 'px');
+ rowStyles.push('');
 
  var imageCode = `
        <tr>
-        <td align="center" style="${styles.join('; ')}">
+        <td align="center" style="${rowStyles.join('; ')}">
          <a href="http://www.change_me.com" target="_blank"><img
           src="${image.currentSrc}"
           alt="Image" width="${image.clientWidth}" height="${image.clientHeight}" class="w100pct hAuto" style="width: ${image.clientWidth}px; height: ${image.clientHeight}px; border: 0; display: block;">
