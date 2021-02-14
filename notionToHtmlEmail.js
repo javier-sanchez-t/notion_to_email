@@ -201,15 +201,13 @@ function getColumns(element) {
           <table align="left" class="w100pct" width="${columnElement.clientWidth}" style="width: ${columnElement.clientWidth}px;" border="0" cellpadding="0" cellspacing="0">
            <tr>
             <td align="left" style="${columnStyles.join('; ')}">
-            ${buildEmailBodyFromArray(columnElement.childNodes, columnWidth)}
+             ${buildEmailBodyFromArray(columnElement.childNodes, columnWidth)}
             </td>
            </tr>
           </table>
           <!--END OF COLUMN ${column + 1}-->
           `;
  }
-
- console.log("column", columns);
 
  var container = `
       <tr>
@@ -231,15 +229,12 @@ function getColumns(element) {
 
 
 function buildEmailBodyFromArray(elementList, emailWidth) {
- console.log("elementList", elementList);
- console.log("emailWidth", emailWidth);
-
  var rows = [];
+
  elementList.forEach(element => {
   if (element.nodeName == "#text") {
    return;
   }
-
 
   if (element.nodeName == "P" || element.nodeName == "H1" || element.nodeName == "H2" || element.nodeName == "H3") {
    rows.push(getText(element));
@@ -270,7 +265,6 @@ function downloadFile(filename, text) {
 
  element.style.display = 'none';
  document.body.appendChild(element);
-
  element.click();
 
  document.body.removeChild(element);
