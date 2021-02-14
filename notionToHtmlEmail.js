@@ -147,7 +147,93 @@ function getList(element) {
 }
 
 
+function getColumns(element) {
+ var columns = "";
+ var columnElement = null;
+ var cStyles = null;
+ var columnStyles = [];
+ var paddingRight = 0;
+ var paddingLeft = 0;
+ var columnWidth = 0;
+
+ if (element.childNodes.length >= 1) {
+  columnElement = element.childNodes[0];
+  cStyles = getComputedStyle(columnElement);
+  columnStyles = [];
+  paddingRight = Math.round(cStyles.paddingRight.replace('px', ''));
+  paddingLeft = Math.round(cStyles.paddingLeft.replace('px', ''));
+  columnStyles.push('padding-right: ' + paddingRight + 'px');
+  columnStyles.push('padding-left: ' + paddingLeft + 'px');
+  columnStyles.push('');
+  columnWidth = columnElement.clientWidth - (paddingRight + paddingLeft);
+
+  columns = `
+          <!--COLUMN 1-->
+          <table align="left" class="w100pct" width="${columnElement.clientWidth}" style="width: ${element.childNodes[0].clientWidth};" border="0" cellpadding="0" cellspacing="0">
+           <tr>
+            <td align="left" style="${columnStyles.join('; ')}">
+             ${buildEmailBodyFromArray(columnElement.childNodes, columnWidth)}
+            </td>
+           </tr>
+          </table>
+          <!--END OF COLUMN 1-->
+          `;
+ }
+
+ for (var column = 1; column < element.childNodes.length; column++) {
+  columnElement = element.childNodes[column];
+  cStyles = getComputedStyle(columnElement);
+  columnStyles = [];
+  paddingRight = Math.round(cStyles.paddingRight.replace('px', ''));
+  paddingLeft = Math.round(cStyles.paddingLeft.replace('px', ''));
+  columnStyles.push('padding-right: ' + paddingRight + 'px');
+  columnStyles.push('padding-left: ' + paddingLeft + 'px');
+  columnStyles.push('');
+  columnWidth = columnElement.clientWidth - (paddingRight + paddingLeft);
+
+  columns += `
+          <!--[if (gte mso 9)|(IE)]>
+           </td>
+           <td valign='top'>
+          <![endif]-->
+
+          <!--COLUMN ${column + 1}-->
+          <table align="left" class="w100pct" width="${columnElement.clientWidth}" style="width: ${columnElement.clientWidth}px;" border="0" cellpadding="0" cellspacing="0">
+           <tr>
+            <td align="left" style="${columnStyles.join('; ')}">
+            ${buildEmailBodyFromArray(columnElement.childNodes, columnWidth)}
+            </td>
+           </tr>
+          </table>
+          <!--END OF COLUMN ${column + 1}-->
+          `;
+ }
+
+ console.log("column", columns);
+
+ var container = `
+      <tr>
+       <td align="center">
+        <!--COLUMNS-->
+        <table class="w100pct" width="${element.clientWidth}" style="width: ${element.clientWidth}px;" border="0" cellpadding="0" cellspacing="0">
+         <tr>
+          <td align="center">
+           ${columns}
+          </td>
+         </tr>
+        </table>
+        <!--END OF COLUMNS-->
+       </td>
+      </tr>`;
+
+ return container;
+}
+
+
 function buildEmailBodyFromArray(elementList, emailWidth) {
+ console.log("elementList", elementList);
+ console.log("emailWidth", emailWidth);
+
  var rows = [];
  elementList.forEach(element => {
   if (element.nodeName == "#text") {
@@ -161,16 +247,17 @@ function buildEmailBodyFromArray(elementList, emailWidth) {
    rows.push(getImage(element));
   } else if (element.nodeName == "UL" || element.nodeName == "OL") {
    rows.push(getList(element));
+  } else if (element.className == "column-list") {
+   rows.push(getColumns(element));
   }
 
  });
 
  var container = `
-      <!--EMAIL BODY-->
-      <table class="w100pct" width="${emailWidth.replace('px', '')}" style="width: ${emailWidth};" border="0" cellpadding="0" cellspacing="0">
+      <table class="w100pct" width="${emailWidth}" style="width: ${emailWidth}px;" border="0" cellpadding="0" cellspacing="0">
        ${rows.join(' ')}
       </table>
-      <!--END OF EMAIL BODY-->`;
+      `;
 
  return container;
 }
@@ -203,7 +290,7 @@ function notionToHtmlEmail() {
  email = categorizeContent(getMainEmailContent(), email);
  email["[subject]"] = getPlainTextFromArray(email["[subject]"]);
  email["[preheader]"] = getPlainTextFromArray(email["[preheader]"]);
- email["[body]"] = buildEmailBodyFromArray(email["[body]"], email.width);
+ email["[body]"] = buildEmailBodyFromArray(email["[body]"], email.width.replace('px', ''));
  //console.log("categorize content", email);
 
  var htmlEmail = `
@@ -295,7 +382,9 @@ function notionToHtmlEmail() {
    <table id="bodyTable" width="100%" style="margin: 0; padding:0;" border="0" cellpadding="0" cellspacing="0">
     <tr>
      <td align="center" valign="top" class="padL20 padR20">
+      <!--EMAIL BODY-->
       ${email["[body]"]}
+      <!--END OF EMAIL BODY-->
      </td>
     </tr>
    </table>
