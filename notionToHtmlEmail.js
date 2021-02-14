@@ -177,7 +177,7 @@ function getColumns(element) {
           <!--COLUMN 1-->
           <table align="left" class="w100pct" width="${columnElement.clientWidth}" style="width: ${element.childNodes[0].clientWidth};" border="0" cellpadding="0" cellspacing="0">
            <tr>
-            <td align="left" style="${columnStyles.join('; ')}">
+            <td align="left" class="padL0 padR0" style="${columnStyles.join('; ')}">
              ${buildEmailBodyFromArray(columnElement.childNodes, columnWidth)}
             </td>
            </tr>
@@ -198,15 +198,12 @@ function getColumns(element) {
   columnWidth = columnElement.clientWidth - (paddingRight + paddingLeft);
 
   columns += `
-          <!--[if (gte mso 9)|(IE)]>
-           </td>
-           <td valign='top'>
-          <![endif]-->
+          <!--[if (gte mso 9)|(IE)]></td><td valign='top'><![endif]-->
 
           <!--COLUMN ${column + 1}-->
           <table align="left" class="w100pct" width="${columnElement.clientWidth}" style="width: ${columnElement.clientWidth}px;" border="0" cellpadding="0" cellspacing="0">
            <tr>
-            <td align="left" style="${columnStyles.join('; ')}">
+            <td align="left" class="padL0 padR0" style="${columnStyles.join('; ')}">
              ${buildEmailBodyFromArray(columnElement.childNodes, columnWidth)}
             </td>
            </tr>
@@ -349,7 +346,9 @@ function notionToHtmlEmail() {
      .noDisplay{ display: none; }
      .w100pct{ width: 100% !important; }
      .hAuto{ height: auto !important; }
+     .padL0 { padding-left: 0px !important; }
      .padL20 { padding-left: 20px !important; }
+     .padR0 { padding-right: 0px !important; }
      .padR20 { padding-right: 20px !important; }
      .desktop{ display: none !important; }
      .mobile{ display: block !important; }
