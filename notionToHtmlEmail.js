@@ -20,8 +20,14 @@ function RGBToHex(rgb) {
 }
 
 function getEmailWidth() {
- var styles = getComputedStyle(document.body);
- return styles.maxWidth;
+ var width = 0;
+ var emailContent = document.getElementsByClassName('page-body');
+ if (emailContent) {
+  var styles = getComputedStyle(emailContent[0]);
+  width = styles.width;
+ }
+
+ return width;
 }
 
 
