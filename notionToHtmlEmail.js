@@ -168,7 +168,7 @@ function getColumns(element) {
   columnStyles = [];
   paddingRight = Math.round(cStyles.paddingRight.replace('px', ''));
   paddingLeft = Math.round(cStyles.paddingLeft.replace('px', ''));
-  columnStyles.push('padding-right: ' + paddingRight + 'px');
+  //columnStyles.push('padding-right: ' + paddingRight + 'px');
   columnStyles.push('padding-left: ' + paddingLeft + 'px');
   columnStyles.push('');
   columnWidth = columnElement.clientWidth - (paddingRight + paddingLeft);
@@ -192,7 +192,7 @@ function getColumns(element) {
   columnStyles = [];
   paddingRight = Math.round(cStyles.paddingRight.replace('px', ''));
   paddingLeft = Math.round(cStyles.paddingLeft.replace('px', ''));
-  columnStyles.push('padding-right: ' + paddingRight + 'px');
+  //columnStyles.push('padding-right: ' + paddingRight + 'px');
   columnStyles.push('padding-left: ' + paddingLeft + 'px');
   columnStyles.push('');
   columnWidth = columnElement.clientWidth - (paddingRight + paddingLeft);
@@ -345,7 +345,7 @@ function notionToHtmlEmail() {
                
     #bodyTable { height: 100% !important; margin: 0; padding: 0; width: 100% !important; }
        
-    @media only screen and (max-width:${email.width}){
+    @media only screen and (max-width: 420px){
      .noDisplay{ display: none; }
      .w100pct{ width: 100% !important; }
      .hAuto{ height: auto !important; }
