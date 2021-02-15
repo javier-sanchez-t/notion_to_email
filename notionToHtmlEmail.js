@@ -71,7 +71,8 @@ function getPlainTextFromArray(elementList) {
  return text;
 }
 
-function getText(element) {
+function getText(element, isFooter) {
+ var align = isFooter ? 'center' : 'left';
  var styles = getComputedStyle(element);
  var textStyles = [];
  textStyles.push('color: ' + RGBToHex(styles.color));
@@ -85,7 +86,7 @@ function getText(element) {
 
  var textCode = `
        <tr>
-        <td align="left" style="${textStyles.join('; ')}">
+        <td align="${align}" style="${textStyles.join('; ')}">
          ${element.innerHTML}
         </td>
        </tr>`;
@@ -240,7 +241,7 @@ function buildEmailBodyFromArray(elementList, emailWidth) {
   }
 
   if (element.nodeName == "P" || element.nodeName == "H1" || element.nodeName == "H2" || element.nodeName == "H3") {
-   rows.push(getText(element));
+   rows.push(getText(element, false));
   } else if (element.nodeName == "FIGURE") {
    rows.push(getImage(element));
   } else if (element.nodeName == "UL" || element.nodeName == "OL") {
@@ -263,13 +264,24 @@ function buildEmailBodyFromArray(elementList, emailWidth) {
 
 function buildSocial(socialNetworks) {
  var socialColumns = "";
- socialNetworks.forEach(social => {
-  socialColumns += `<td align="center">${social.childNodes[0].innerHTML}</td>`;
+ socialNetworks.forEach(socialElement => {
+  var tStyles = getComputedStyle(socialElement.firstChild);
+  var textStyles = [];
+  textStyles.push('color: ' + RGBToHex(tStyles.color));
+  textStyles.push('font-family: ' + tStyles.fontFamily.replace(/"/g, "'"));
+  textStyles.push('font-size: ' + tStyles.fontSize);
+  textStyles.push('line-height: ' + tStyles.lineHeight);
+  textStyles.push('font-weight: ' + tStyles.fontWeight);
+  textStyles.push('');
+
+  socialColumns += `<td align="center" style="${textStyles.join('; ')}">
+                     ${socialElement.childNodes[0].innerHTML}
+                    </td>`;
  });
 
- var socialCode = `
+ var container = `
   <tr>
-   <td align="center">
+   <td align="center" style="padding-top: 20px; padding-bottom: 20px;">
     <table class="w100pct" width="100%" style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
      <tr>
       ${socialColumns}
@@ -278,7 +290,7 @@ function buildSocial(socialNetworks) {
    </td>
   </tr>`;
 
- return socialCode;
+ return container;
 }
 
 
@@ -288,7 +300,7 @@ function buildFooterFromArray(elementList, emailWidth) {
  for (var counter = 0; counter < elementList.length; counter++) {
 
   if (elementList[counter].nodeName == "P" || elementList[counter].nodeName == "H1" || elementList[counter].nodeName == "H2" || elementList[counter].nodeName == "H3") {
-   rows.push(getText(elementList[counter]));
+   rows.push(getText(elementList[counter], true));
 
   } else if (elementList[counter].nodeName == "UL") {
    //Build social
@@ -300,7 +312,6 @@ function buildFooterFromArray(elementList, emailWidth) {
     socialNetworks.push(elementList[counter]);
    }
 
-   console.log("social", socialNetworks);
    rows.push(buildSocial(socialNetworks));
   }
  }
@@ -443,7 +454,7 @@ function notionToHtmlEmail() {
      <td align="center" valign="top" class="padL20 padR20">
       <table class="w100pct" width="${email.width}" style="width: ${email.width}px;" border="0" cellpadding="0" cellspacing="0">
        <tr>
-        <td align="center" style="padding-bottom: 40px;">
+        <td align="center" style="padding-bottom: 80px;">
          <!--EMAIL BODY-->
           ${email["[body]"]}
          <!--END OF EMAIL BODY-->
@@ -451,7 +462,7 @@ function notionToHtmlEmail() {
        </tr>
 
        <tr>
-        <td align="center" style="padding-bottom: 40px;">
+        <td align="center" style="padding-bottom: 60px;">
          <!--FOOTER-->
           ${email["[footer]"]}
          <!--END OF FOOTER-->
