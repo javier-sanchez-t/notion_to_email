@@ -261,6 +261,65 @@ function buildEmailBodyFromArray(elementList, emailWidth) {
 }
 
 
+function buildSocial(socialNetworks) {
+ var socialColumns = "";
+ socialNetworks.forEach(social => {
+  socialColumns += `<td align="center">${social.childNodes[0].innerHTML}</td>`;
+ });
+
+ var socialCode = `
+  <tr>
+   <td align="center">
+    <table class="w100pct" width="100%" style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+     <tr>
+      ${socialColumns}
+     </tr>
+    </table>
+   </td>
+  </tr>`;
+
+ return socialCode;
+}
+
+
+function buildFooterFromArray(elementList, emailWidth) {
+ var rows = [];
+
+ for (var counter = 0; counter < elementList.length; counter++) {
+
+  if (elementList[counter].nodeName == "P" || elementList[counter].nodeName == "H1" || elementList[counter].nodeName == "H2" || elementList[counter].nodeName == "H3") {
+   rows.push(getText(elementList[counter]));
+
+  } else if (elementList[counter].nodeName == "UL") {
+   //Build social
+   var socialNetworks = [];
+   socialNetworks.push(elementList[counter]);
+
+   while (elementList[counter].nextElementSibling.nodeName == "UL") {
+    counter++;
+    socialNetworks.push(elementList[counter]);
+   }
+
+   console.log("social", socialNetworks);
+   rows.push(buildSocial(socialNetworks));
+  }
+ }
+
+ var footerCode = `
+    <table class="w100pct" width="${emailWidth}" style="width: ${emailWidth}px;" border="0" cellpadding="0" cellspacing="0">
+     <tr>
+      <td align="center" class="padL20 padR20">
+       <table class="w100pct" width="450" style="width: 450px;" border="0" cellpadding="0" cellspacing="0">
+        ${rows.join(' ')}
+       </table>
+      </td>
+     </tr>
+    </table>`;
+
+ return footerCode;
+}
+
+
 function downloadFile(filename, text) {
  var element = document.createElement('a');
  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -288,6 +347,7 @@ function notionToHtmlEmail() {
  email["[subject]"] = getPlainTextFromArray(email["[subject]"]);
  email["[preheader]"] = getPlainTextFromArray(email["[preheader]"]);
  email["[body]"] = buildEmailBodyFromArray(email["[body]"], email.width.replace('px', ''));
+ email["[footer]"] = buildFooterFromArray(email["[footer]"]);
  //console.log("categorize content", email);
 
  var htmlEmail = `
@@ -381,9 +441,24 @@ function notionToHtmlEmail() {
    <table id="bodyTable" width="100%" style="margin: 0; padding:0;" border="0" cellpadding="0" cellspacing="0">
     <tr>
      <td align="center" valign="top" class="padL20 padR20">
-      <!--EMAIL BODY-->
-      ${email["[body]"]}
-      <!--END OF EMAIL BODY-->
+      <table class="w100pct" width="${email.width}" style="width: ${email.width}px;" border="0" cellpadding="0" cellspacing="0">
+       <tr>
+        <td align="center" style="padding-bottom: 40px;">
+         <!--EMAIL BODY-->
+          ${email["[body]"]}
+         <!--END OF EMAIL BODY-->
+        </td>
+       </tr>
+
+       <tr>
+        <td align="center" style="padding-bottom: 40px;">
+         <!--FOOTER-->
+          ${email["[footer]"]}
+         <!--END OF FOOTER-->
+        </td>
+       </tr>
+      </table>
+      
      </td>
     </tr>
    </table>
