@@ -510,7 +510,19 @@ addScript('https://unpkg.com/sweetalert/dist/sweetalert.min.js');
 
 function buildHtmlEmail() {
  //Execute the main function
- //document.body.onload = function () {
+ /*document.body.onload = function () {
+ try {
+  console.log("notionToHtmlEmail");
+  notionToHtmlEmail();
+ } catch (err) {
+  swal("Ups!", "Something is wrong. \n Please be sure you are using a Notion page.", "error");
+  document.body.style.whiteSpace = 'normal';
+  document.getElementsByClassName("swal-modal")[0].style.fontFamily = 'Helvetica, arial, sans-serif';
+ }
+
+ };*/
+
+ window.addEventListener('load', function () {
   try {
    console.log("notionToHtmlEmail");
    notionToHtmlEmail();
@@ -519,6 +531,5 @@ function buildHtmlEmail() {
    document.body.style.whiteSpace = 'normal';
    document.getElementsByClassName("swal-modal")[0].style.fontFamily = 'Helvetica, arial, sans-serif';
   }
-
- //};
+ })
 }
