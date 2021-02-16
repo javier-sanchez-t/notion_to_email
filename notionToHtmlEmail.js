@@ -487,7 +487,7 @@ function notionToHtmlEmail() {
 
  htmlEmail = html_beautify(htmlEmail, { "indent_size": 1, "indent_char": " ", "indent_with_tabs": false });
 
- swal("Done!", "Your HTML email is ready to download!", "success");
+ swal("💥 Boom!", "Your HTML email is ready to download!", "success");
  document.body.style.whiteSpace = 'normal';
  document.getElementsByClassName("swal-modal")[0].style.fontFamily = 'Helvetica, arial, sans-serif';
  document.getElementsByClassName("swal-button")[0].style.backgroundColor = '#00b382';
@@ -499,7 +499,7 @@ function buildHtmlEmail() {
  try {
   notionToHtmlEmail();
  } catch (err) {
-  swal("Ups!", "Something is wrong. \n Please be sure you are using a Notion page.", "error");
+  swal("😮 Ups!", "Something is wrong! \n Please be sure you are using a Notion page.", "error");
   document.body.style.whiteSpace = 'normal';
   document.getElementsByClassName("swal-modal")[0].style.fontFamily = 'Helvetica, arial, sans-serif';
  }
