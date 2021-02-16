@@ -32,7 +32,7 @@ function getEmailWidth() {
  var emailContent = document.getElementsByClassName('page-body');
  if (emailContent) {
   var styles = getComputedStyle(emailContent[0]);
-  width = styles.width;
+  width = styles.width.replace('px', '');
  }
 
  return width;
@@ -185,7 +185,7 @@ function getColumns(element) {
 
   columns = `
           <!--COLUMN 1-->
-          <table align="left" class="w100pct" width="${columnElement.clientWidth}" style="width: ${element.childNodes[0].clientWidth};" border="0" cellpadding="0" cellspacing="0">
+          <table align="left" class="w100pct" width="${columnElement.clientWidth}" style="width: ${element.childNodes[0].clientWidth}px;" border="0" cellpadding="0" cellspacing="0">
            <tr>
             <td align="left" class="padL0 padR0" style="${columnStyles.join('; ')}">
              ${buildEmailBodyFromArray(columnElement.childNodes, columnWidth)}
@@ -323,18 +323,17 @@ function buildFooterFromArray(elementList, emailWidth) {
   }
  }
 
- var footerCode = `
-    <table class="w100pct" width="${emailWidth}" style="width: ${emailWidth}px;" border="0" cellpadding="0" cellspacing="0">
-     <tr>
-      <td align="center" class="padL20 padR20">
-       <table class="w100pct" width="450" style="width: 450px;" border="0" cellpadding="0" cellspacing="0">
-        ${rows.join(' ')}
-       </table>
-      </td>
-     </tr>
-    </table>`;
+ var container = `<table class="w100pct" width="${emailWidth}" style="width: ${emailWidth}px;" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                     <td align="center" class="padL20 padR20">
+                      <table class="w100pct" width="450" style="width: 450px;" border="0" cellpadding="0" cellspacing="0">
+                       ${rows.join(' ')}
+                      </table>
+                     </td>
+                    </tr>
+                   </table>`;
 
- return footerCode;
+ return container;
 }
 
 
@@ -364,8 +363,8 @@ function notionToHtmlEmail() {
  email = categorizeContent(getMainEmailContent(), email);
  email["[subject]"] = getPlainTextFromArray(email["[subject]"]);
  email["[preheader]"] = getPlainTextFromArray(email["[preheader]"]);
- email["[body]"] = buildEmailBodyFromArray(email["[body]"], email.width.replace('px', ''));
- email["[footer]"] = buildFooterFromArray(email["[footer]"]);
+ email["[body]"] = buildEmailBodyFromArray(email["[body]"], email.width);
+ email["[footer]"] = buildFooterFromArray(email["[footer]"], email.width);
  //console.log("categorize content", email);
 
  var htmlEmail = `
