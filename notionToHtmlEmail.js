@@ -512,6 +512,7 @@ function buildHtmlEmail() {
  //Execute the main function
  document.body.onload = function () {
   try {
+   console.log("notionToHtmlEmail");
    notionToHtmlEmail();
   } catch (err) {
    swal("Ups!", "Something is wrong. \n Please be sure you are using a Notion page.", "error");
