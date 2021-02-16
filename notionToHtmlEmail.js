@@ -1,3 +1,11 @@
+/**
+ * 
+ * NOTION PAGE TO HTML EMAIL
+ * 
+ * Copyright (c) 2021 Scalero
+ * 
+ * 
+ */
 
 function RGBToHex(rgb) {
  // Choose correct separator
