@@ -495,43 +495,47 @@ function notionToHtmlEmail() {
 }
 
 
-function addScript(src) {
- var script = document.createElement('script');
- script.type = 'text/javascript';
- script.src = src;
- document.getElementsByTagName('head')[0].appendChild(script);
-}
-
-//Load resources for notifications and HTML identation
-addScript('https://cdn.rawgit.com/beautify-web/js-beautify/v1.13.6/js/lib/beautify-html.js');
-addScript('https://unpkg.com/sweetalert/dist/sweetalert.min.js');
-
-
-
 function buildHtmlEmail() {
- //Execute the main function
- /*document.body.onload = function () {
  try {
-  console.log("notionToHtmlEmail");
   notionToHtmlEmail();
  } catch (err) {
   swal("Ups!", "Something is wrong. \n Please be sure you are using a Notion page.", "error");
   document.body.style.whiteSpace = 'normal';
   document.getElementsByClassName("swal-modal")[0].style.fontFamily = 'Helvetica, arial, sans-serif';
  }
+}
 
- };*/
-console.log("state", document.readyState);
 
- window.addEventListener('DOMContentLoaded', function () {
-  try {
-   console.log("state", document.readyState);
-   console.log("notionToHtmlEmail");
-   notionToHtmlEmail();
-  } catch (err) {
-   swal("Ups!", "Something is wrong. \n Please be sure you are using a Notion page.", "error");
-   document.body.style.whiteSpace = 'normal';
-   document.getElementsByClassName("swal-modal")[0].style.fontFamily = 'Helvetica, arial, sans-serif';
+function addScript(src) {
+ var script = document.createElement('script');
+ script.type = 'text/javascript';
+ script.src = src;
+ document.getElementsByTagName('head')[0].appendChild(script);
+ return script;
+}
+
+/**
+ * Load and launch script 
+ */
+var isBeautifyHtmlLoaded = false;
+var isSweetalertLoaded = false;
+
+function loadAndExecute() {
+ beautifyHtml = addScript('https://cdn.rawgit.com/beautify-web/js-beautify/v1.13.6/js/lib/beautify-html.js');
+ isSweetalert = addScript('https://unpkg.com/sweetalert/dist/sweetalert.min.js');
+
+ beautifyHtml.addEventListener('load', () => {
+  isBeautifyHtmlLoaded = true;
+  if (isBeautifyHtmlLoaded && isSweetalertLoaded) {
+   buildHtmlEmail();
   }
- })
+ });
+
+ isSweetalert.addEventListener('load', () => {
+  isSweetalertLoaded = true;
+  if (isBeautifyHtmlLoaded && isSweetalertLoaded) {
+   buildHtmlEmail();
+  }
+ });
+
 }
