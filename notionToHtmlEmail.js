@@ -71,6 +71,7 @@ function getPlainTextFromArray(elementList) {
  return text;
 }
 
+
 function getText(element, isFooter) {
  var align = isFooter ? 'center' : 'left';
  var styles = getComputedStyle(element);
@@ -252,11 +253,9 @@ function buildEmailBodyFromArray(elementList, emailWidth) {
 
  });
 
- var container = `
-      <table class="w100pct" width="${emailWidth}" style="width: ${emailWidth}px;" border="0" cellpadding="0" cellspacing="0">
-       ${rows.join(' ')}
-      </table>
-      `;
+ var container = `<table class="w100pct" width="${emailWidth}" style="width: ${emailWidth}px;" border="0" cellpadding="0" cellspacing="0">
+                   ${rows.join(' ')}
+                  </table>`;
 
  return container;
 }
@@ -478,13 +477,39 @@ function notionToHtmlEmail() {
        
  </html>`;
 
+ htmlEmail = html_beautify(htmlEmail, { "indent_size": 1, "indent_char": " ", "indent_with_tabs": false });
+
+ swal("Done!", "Your HTML email is ready to download!", "success");
+ document.body.style.whiteSpace = 'normal';
+ document.getElementsByClassName("swal-modal")[0].style.fontFamily = 'Helvetica, arial, sans-serif';
+ document.getElementsByClassName("swal-button")[0].style.backgroundColor = '#00b382';
  downloadFile('email.html', htmlEmail);
- console.log("HTML", htmlEmail);
 }
 
 
-function init() {
+function addScript(src) {
+ var script = document.createElement('script');
+ script.type = 'text/javascript';
+ script.src = src;
+ document.getElementsByTagName('head')[0].appendChild(script);
+}
+
+//Load resources for notifications and HTML identation
+addScript('https://cdn.rawgit.com/beautify-web/js-beautify/v1.13.6/js/lib/beautify-html.js');
+addScript('https://unpkg.com/sweetalert/dist/sweetalert.min.js');
+
+
+
+function buildHtmlEmail() {
+ //Execute the main function
  document.body.onload = function () {
-  notionToHtmlEmail();
+  try {
+   notionToHtmlEmail();
+  } catch (err) {
+   swal("Ups!", "Something is wrong. \n Please be sure you are using a Notion page.", "error");
+   document.body.style.whiteSpace = 'normal';
+   document.getElementsByClassName("swal-modal")[0].style.fontFamily = 'Helvetica, arial, sans-serif';
+  }
+
  };
 }
