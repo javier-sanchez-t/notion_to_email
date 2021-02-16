@@ -485,13 +485,21 @@ function notionToHtmlEmail() {
        
  </html>`;
 
- htmlEmail = html_beautify(htmlEmail, { "indent_size": 1, "indent_char": " ", "indent_with_tabs": false });
 
- swal("💥 Boom!", "Your HTML email is ready to download!", "success");
+ swal("💥 Boom!", "Your HTML email is ready to download!", "success", {
+  buttons: {
+   catch: {
+    text: "Download"
+   }
+  },
+ }).then((value) => {
+  htmlEmail = html_beautify(htmlEmail, { "indent_size": 1, "indent_char": " ", "indent_with_tabs": false });
+  downloadFile('email.html', htmlEmail);
+ });
  document.body.style.whiteSpace = 'normal';
  document.getElementsByClassName("swal-modal")[0].style.fontFamily = 'Helvetica, arial, sans-serif';
  document.getElementsByClassName("swal-button")[0].style.backgroundColor = '#00b382';
- downloadFile('email.html', htmlEmail);
+
 }
 
 
