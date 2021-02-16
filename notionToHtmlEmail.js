@@ -521,9 +521,11 @@ function buildHtmlEmail() {
  }
 
  };*/
+console.log("state", document.readyState);
 
- window.addEventListener('load', function () {
+ window.addEventListener('DOMContentLoaded', function () {
   try {
+   console.log("state", document.readyState);
    console.log("notionToHtmlEmail");
    notionToHtmlEmail();
   } catch (err) {
