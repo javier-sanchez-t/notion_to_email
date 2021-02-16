@@ -510,7 +510,7 @@ addScript('https://unpkg.com/sweetalert/dist/sweetalert.min.js');
 
 function buildHtmlEmail() {
  //Execute the main function
- document.body.onload = function () {
+ //document.body.onload = function () {
   try {
    console.log("notionToHtmlEmail");
    notionToHtmlEmail();
@@ -520,5 +520,5 @@ function buildHtmlEmail() {
    document.getElementsByClassName("swal-modal")[0].style.fontFamily = 'Helvetica, arial, sans-serif';
   }
 
- };
+ //};
 }
