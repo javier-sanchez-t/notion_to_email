@@ -81,6 +81,7 @@ function getPlainTextFromArray(elementList) {
 
 
 function getText(element, isFooter) {
+ var content = element.innerHTML.trim().length == 0 ? '&nbsp;' : element.innerHTML.trim();
  var align = isFooter ? 'center' : 'left';
  var styles = getComputedStyle(element);
  var textStyles = [];
@@ -96,7 +97,7 @@ function getText(element, isFooter) {
  var textCode = `
           <tr>
            <td align="${align}" style="${textStyles.join('; ')}">
-            ${element.innerHTML}
+            ${content}
            </td>
           </tr>`;
 
@@ -162,6 +163,51 @@ function getList(element, type, numberList) {
  return textCode;
 }
 
+
+function buildColumns(element) {
+ element = element.firstChild;
+ var columns = "";
+ var containerWidth = 0;
+
+ for (var column = 0; column < element.childNodes.length; column += 2) {
+  var columnElement = element.childNodes[column];
+  var nextColumn = element.childNodes[column + 1]
+  var cStyles = getComputedStyle(columnElement);
+  var columnWidth = Math.round(cStyles.width.replace('px', ''));
+  var columnPaddingRight = 0;
+  var nestedTableWidth = 0;
+
+  if (nextColumn) {
+   columnPaddingRight = Math.round(getComputedStyle(nextColumn).width.replace('px', ''));
+   columnWidth += columnPaddingRight;
+  }
+  containerWidth += columnWidth;
+  nestedTableWidth = columnWidth-columnPaddingRight;
+
+  columns += `<td align="left" valign="top" width="${columnWidth}" style="width: ${columnWidth}px; padding-right: ${columnPaddingRight}px;" dir="ltr" class="full padB30">
+                ${buildEmailBodyFromArray(columnElement.childNodes[0].childNodes, nestedTableWidth)}
+              </td>`;
+ }
+
+ var container = `
+         <tr>
+          <td align="center">
+           <!--COLUMNS-->
+           <table class="w100pct" width="${containerWidth}" style="width: ${containerWidth}px;" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+             ${columns}
+            </tr>
+           </table>
+           <!--END OF COLUMNS-->
+          </td>
+         </tr>`;
+
+ return container;
+}
+
+
+/*var columns = document.getElementsByClassName('notion-selectable notion-column_list-block');
+buildColumns(columns[0]);*/
 
 function getColumns(element) {
  var columns = "";
@@ -264,8 +310,8 @@ function buildEmailBodyFromArray(elementList, emailWidth) {
    var numberList = element.childNodes[0].childNodes[0].childNodes[0].innerText.replace('.', '');
    element = element.childNodes[0].childNodes[1].childNodes[0];
    rows.push(getList(element, 'ol', numberList));
-  } else if (element.className == "column-list") {
-   rows.push(getColumns(element));
+  } else if (element.className == "notion-selectable notion-column_list-block") {
+   rows.push(buildColumns(element));
   }
 
  });
@@ -436,9 +482,9 @@ function notionToHtmlEmail() {
         .padL20 { padding-left: 20px !important; }
         .padR0 { padding-right: 0px !important; }
         .padR20 { padding-right: 20px !important; }
+        .padB30 { padding-bottom: 30px !important; }
         .desktop{ display: none !important; }
-        .mobile{ display: block !important; }
-        .mobilecontent{display: block !important;max-height: none !important;}
+        .full { display:block !important; width:100% !important; }
        }
       </style>
           
@@ -492,25 +538,6 @@ function notionToHtmlEmail() {
      </body>
           
     </html>`;
-
-
- /*swal("💥 Boom!", "Your HTML email is ready to download!", "success", {
-  buttons: {
-   catch: {
-    text: "Download",
-    value: "download"
-   }
-  },
- }).then((value) => {
-  if (value == "download") {
-   htmlEmail = html_beautify(htmlEmail, { "indent_size": 1, "indent_char": " ", "indent_with_tabs": false });
-   downloadFile('email.html', htmlEmail);
-  }
- });
- document.body.style.whiteSpace = 'normal';
- document.getElementsByClassName("swal-modal")[0].style.fontFamily = 'Helvetica, arial, sans-serif';
- document.getElementsByClassName("swal-button")[0].style.backgroundColor = '#00b382';
- */
 
  htmlEmail = html_beautify(htmlEmail, { "indent_size": 1, "indent_char": " ", "indent_with_tabs": false });
 
