@@ -80,7 +80,7 @@ function getPlainTextFromArray(elementList) {
 }
 
 
-function getText(element, isFooter) {
+function getText(element, isFooter, marginTop) {
  var content = element.innerHTML.trim().length == 0 ? '&nbsp;' : element.innerHTML.trim();
  var align = isFooter ? 'center' : 'left';
  var styles = getComputedStyle(element);
@@ -89,7 +89,7 @@ function getText(element, isFooter) {
  textStyles.push('font-family: ' + styles.fontFamily.replace(/"/g, "'"));
  textStyles.push('font-size: ' + styles.fontSize);
  textStyles.push('line-height: ' + styles.lineHeight);
- textStyles.push('padding-top: ' + Math.round(styles.paddingTop.replace('px', '')) + 'px');
+ textStyles.push('padding-top: ' + (Math.round(styles.paddingTop.replace('px', '')) + marginTop) + 'px');
  textStyles.push('padding-bottom: ' + Math.round(styles.paddingBottom.replace('px', '')) + 'px');
  textStyles.push('font-weight: ' + styles.fontWeight);
  textStyles.push('');
@@ -165,7 +165,6 @@ function getList(element, type, numberList) {
 
 
 function buildColumns(element) {
- element = element.firstChild;
  var columns = "";
  var containerWidth = 0;
 
@@ -182,7 +181,7 @@ function buildColumns(element) {
    columnWidth += columnPaddingRight;
   }
   containerWidth += columnWidth;
-  nestedTableWidth = columnWidth-columnPaddingRight;
+  nestedTableWidth = columnWidth - columnPaddingRight;
 
   columns += `<td align="left" valign="top" width="${columnWidth}" style="width: ${columnWidth}px; padding-right: ${columnPaddingRight}px;" dir="ltr" class="full padB30">
                 ${buildEmailBodyFromArray(columnElement.childNodes[0].childNodes, nestedTableWidth)}
@@ -208,6 +207,10 @@ function buildColumns(element) {
 
 /*var columns = document.getElementsByClassName('notion-selectable notion-column_list-block');
 buildColumns(columns[0]);*/
+
+
+var columns = document.getElementsByClassName('notion-selectable notion-sub_sub_header-block')[0];
+
 
 function getColumns(element) {
  var columns = "";
@@ -297,10 +300,11 @@ function buildEmailBodyFromArray(elementList, emailWidth) {
 
   if (element.className == "notion-selectable notion-text-block") {
    element = element.childNodes[0].childNodes[0].childNodes[0];
-   rows.push(getText(element, false));
+   rows.push(getText(element, false, 0));
   } if (element.className == "notion-selectable notion-sub_sub_header-block") {
+   var marginTop = Math.round(getComputedStyle(element).marginTop.replace('px', ''));
    element = element.childNodes[0].childNodes[0];
-   rows.push(getText(element, false));
+   rows.push(getText(element, false, marginTop));
   } else if (element.className == "notion-selectable notion-image-block") {
    rows.push(getImage(element));
   } else if (element.className == "notion-selectable notion-bulleted_list-block") {
@@ -311,6 +315,7 @@ function buildEmailBodyFromArray(elementList, emailWidth) {
    element = element.childNodes[0].childNodes[1].childNodes[0];
    rows.push(getList(element, 'ol', numberList));
   } else if (element.className == "notion-selectable notion-column_list-block") {
+   element = element.firstChild;
    rows.push(buildColumns(element));
   }
 
