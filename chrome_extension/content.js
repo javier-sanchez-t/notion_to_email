@@ -209,9 +209,6 @@ function buildColumns(element) {
 buildColumns(columns[0]);*/
 
 
-var columns = document.getElementsByClassName('notion-selectable notion-sub_sub_header-block')[0];
-
-
 function getColumns(element) {
  var columns = "";
  var columnElement = null;
