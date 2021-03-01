@@ -27,6 +27,7 @@ function RGBToHex(rgb) {
  return "#" + r + g + b;
 }
 
+
 function getEmailWidth() {
  var width = 0;
  var emailContent = document.getElementsByClassName('notion-page-content');
@@ -164,7 +165,7 @@ function getList(element, type, numberList) {
 }
 
 
-function buildColumns(element) {
+function getColumns(element) {
  var columns = "";
  var containerWidth = 0;
 
@@ -205,88 +206,6 @@ function buildColumns(element) {
 }
 
 
-/*var columns = document.getElementsByClassName('notion-selectable notion-column_list-block');
-buildColumns(columns[0]);*/
-
-
-function getColumns(element) {
- var columns = "";
- var columnElement = null;
- var cStyles = null;
- var columnStyles = [];
- var paddingRight = 0;
- var paddingLeft = 0;
- var columnWidth = 0;
-
- if (element.childNodes.length >= 1) {
-  columnElement = element.childNodes[0];
-  cStyles = getComputedStyle(columnElement);
-  columnStyles = [];
-  paddingRight = Math.round(cStyles.paddingRight.replace('px', ''));
-  paddingLeft = Math.round(cStyles.paddingLeft.replace('px', ''));
-  //columnStyles.push('padding-right: ' + paddingRight + 'px');
-  columnStyles.push('padding-left: ' + paddingLeft + 'px');
-  columnStyles.push('');
-  columnWidth = columnElement.clientWidth - (paddingRight + paddingLeft);
-
-  columns = `
-             <!--COLUMN 1-->
-             <table align="left" class="w100pct" width="${columnElement.clientWidth}" style="width: ${element.childNodes[0].clientWidth}px;" border="0" cellpadding="0" cellspacing="0">
-              <tr>
-               <td align="left" class="padL0 padR0" style="${columnStyles.join('; ')}">
-                ${buildEmailBodyFromArray(columnElement.childNodes, columnWidth)}
-               </td>
-              </tr>
-             </table>
-             <!--END OF COLUMN 1-->
-             `;
- }
-
- for (var column = 1; column < element.childNodes.length; column++) {
-  columnElement = element.childNodes[column];
-  cStyles = getComputedStyle(columnElement);
-  columnStyles = [];
-  paddingRight = Math.round(cStyles.paddingRight.replace('px', ''));
-  paddingLeft = Math.round(cStyles.paddingLeft.replace('px', ''));
-  //columnStyles.push('padding-right: ' + paddingRight + 'px');
-  columnStyles.push('padding-left: ' + paddingLeft + 'px');
-  columnStyles.push('');
-  columnWidth = columnElement.clientWidth - (paddingRight + paddingLeft);
-
-  columns += `
-             <!--[if (gte mso 9)|(IE)]></td><td valign='top'><![endif]-->
-   
-             <!--COLUMN ${column + 1}-->
-             <table align="left" class="w100pct" width="${columnElement.clientWidth}" style="width: ${columnElement.clientWidth}px;" border="0" cellpadding="0" cellspacing="0">
-              <tr>
-               <td align="left" class="padL0 padR0" style="${columnStyles.join('; ')}">
-                ${buildEmailBodyFromArray(columnElement.childNodes, columnWidth)}
-               </td>
-              </tr>
-             </table>
-             <!--END OF COLUMN ${column + 1}-->
-             `;
- }
-
- var container = `
-         <tr>
-          <td align="center">
-           <!--COLUMNS-->
-           <table class="w100pct" width="${element.clientWidth}" style="width: ${element.clientWidth}px;" border="0" cellpadding="0" cellspacing="0">
-            <tr>
-             <td align="center">
-              ${columns}
-             </td>
-            </tr>
-           </table>
-           <!--END OF COLUMNS-->
-          </td>
-         </tr>`;
-
- return container;
-}
-
-
 function buildEmailBodyFromArray(elementList, emailWidth) {
  var rows = [];
 
@@ -298,7 +217,7 @@ function buildEmailBodyFromArray(elementList, emailWidth) {
   if (element.className == "notion-selectable notion-text-block") {
    element = element.childNodes[0].childNodes[0].childNodes[0];
    rows.push(getText(element, false, 0));
-  } if (element.className == "notion-selectable notion-sub_sub_header-block") {
+  } if (element.className == "notion-selectable notion-header-block" || element.className == "notion-selectable notion-sub_header-block" || element.className == "notion-selectable notion-sub_sub_header-block") {
    var marginTop = Math.round(getComputedStyle(element).marginTop.replace('px', ''));
    element = element.childNodes[0].childNodes[0];
    rows.push(getText(element, false, marginTop));
@@ -313,14 +232,14 @@ function buildEmailBodyFromArray(elementList, emailWidth) {
    rows.push(getList(element, 'ol', numberList));
   } else if (element.className == "notion-selectable notion-column_list-block") {
    element = element.firstChild;
-   rows.push(buildColumns(element));
+   rows.push(getColumns(element));
   }
 
  });
 
  var container = `<table class="w100pct" width="${emailWidth}" style="width: ${emailWidth}px;" border="0" cellpadding="0" cellspacing="0">
-                      ${rows.join(' ')}
-                     </table>`;
+                   ${rows.join(' ')}
+                  </table>`;
 
  return container;
 }
@@ -339,8 +258,8 @@ function buildSocial(socialNetworks) {
   textStyles.push('');
 
   socialColumns += `<td align="center" style="${textStyles.join('; ')}">
-                        ${socialElement.childNodes[0].innerHTML}
-                       </td>`;
+                     ${socialElement.childNodes[0].innerHTML}
+                    </td>`;
  });
 
  var container = `
@@ -363,17 +282,23 @@ function buildFooterFromArray(elementList, emailWidth) {
 
  for (var counter = 0; counter < elementList.length; counter++) {
 
-  if (elementList[counter].nodeName == "P" || elementList[counter].nodeName == "H1" || elementList[counter].nodeName == "H2" || elementList[counter].nodeName == "H3") {
-   rows.push(getText(elementList[counter], true));
+  if (elementList[counter].className == "notion-selectable notion-text-block" ||
+   elementList[counter].className == "notion-selectable notion-header-block" ||
+   elementList[counter].className == "notion-selectable notion-sub_header-block" ||
+   elementList[counter].className == "notion-selectable notion-sub_sub_header-block") {
+   var element = elementList[counter].childNodes[0].childNodes[0].childNodes[0];
+   rows.push(getText(element, true));
 
-  } else if (elementList[counter].nodeName == "UL") {
+  } else if (elementList[counter].className == "notion-selectable notion-bulleted_list-block") {
    //Build social
    var socialNetworks = [];
-   socialNetworks.push(elementList[counter]);
+   var socialElement = elementList[counter].childNodes[0].childNodes[1].childNodes[0];
+   socialNetworks.push(socialElement);
 
-   while (elementList[counter].nextElementSibling.nodeName == "UL") {
+   while (elementList[counter].nextElementSibling.className == "notion-selectable notion-bulleted_list-block") {
     counter++;
-    socialNetworks.push(elementList[counter]);
+    socialElement = elementList[counter].childNodes[0].childNodes[1].childNodes[0];
+    socialNetworks.push(socialElement);
    }
 
    rows.push(buildSocial(socialNetworks));
@@ -381,14 +306,14 @@ function buildFooterFromArray(elementList, emailWidth) {
  }
 
  var container = `<table class="w100pct" width="${emailWidth}" style="width: ${emailWidth}px;" border="0" cellpadding="0" cellspacing="0">
-                       <tr>
-                        <td align="center" class="padL20 padR20">
-                         <table class="w100pct" width="450" style="width: 450px;" border="0" cellpadding="0" cellspacing="0">
-                          ${rows.join(' ')}
-                         </table>
-                        </td>
-                       </tr>
-                      </table>`;
+                   <tr>
+                    <td align="center" class="padL20 padR20">
+                     <table class="w100pct" width="450" style="width: 450px;" border="0" cellpadding="0" cellspacing="0">
+                      ${rows.join(' ')}
+                     </table>
+                    </td>
+                   </tr>
+                  </table>`;
 
  return container;
 }
@@ -422,7 +347,6 @@ function notionToHtmlEmail() {
  email["[preheader]"] = getPlainTextFromArray(email["[preheader]"]);
  email["[body]"] = buildEmailBodyFromArray(email["[body]"], email.width);
  email["[footer]"] = buildFooterFromArray(email["[footer]"], email.width);
- //console.log("categorize content", email);
 
  var htmlEmail = `
     <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -555,8 +479,3 @@ chrome.runtime.onMessage.addListener(
    return sendResponse("error", err);
   }
  });
-
-
-
-
-
