@@ -1,16 +1,37 @@
-document.getElementById("btn_convert").addEventListener("click", function () {
+document.getElementById("btn_convert").addEventListener("click", function () {  
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, { type: "getText" }, function (response) {
-      /*if(!response || response.includes('error')){
-        swal("😮 Ups!", "Something is wrong! \n Please be sure you are using a Notion page.", "error");
-      }*/
+
       
-      if (response && !response.includes('error')) {
-        downloadFile("Email.html", response);
+      var hostname = tabs[0].url;
+      if(!hostname.toLowerCase().includes("www.notion.so")){
+        document.getElementById("errorMessage").textContent = "Make sure to use a notion page.";
+        modal.style.display = "block";
       }
+
+      downloadFile("email.html", response);
+      
     });
   });
 });
+
+
+// Get the modal
+var modal = document.getElementById("errorModal");
+
+// Button that closes the modal
+var closeBtn = document.getElementById("close");
+closeBtn.onclick = function () {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
 
 function downloadFile(filename, text) {
   var element = document.createElement('a');

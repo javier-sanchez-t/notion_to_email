@@ -3,7 +3,7 @@
     "name": "Notion2HtmlEmail",
     "description": "Convert your notion page into HTML email.",
     "version": "1.0",
-    "permissions" : ["tabs", "storage"],
+    "permissions" : ["tabs", "<all_urls>"],
     "browser_action": {
       "default_popup": "popup.html",
       "default_title": "Click here!"

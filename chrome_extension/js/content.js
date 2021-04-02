@@ -174,6 +174,8 @@ function getColumns(element) {
   var nextColumn = element.childNodes[column + 1]
   var cStyles = getComputedStyle(columnElement);
   var columnWidth = Math.round(cStyles.width.replace('px', ''));
+  var columnPaddingTop = cStyles.paddingTop;
+  var columnPaddingBottom = cStyles.paddingBottom;
   var columnPaddingRight = 0;
   var nestedTableWidth = 0;
 
@@ -184,7 +186,7 @@ function getColumns(element) {
   containerWidth += columnWidth;
   nestedTableWidth = columnWidth - columnPaddingRight;
 
-  columns += `<td align="left" valign="top" width="${columnWidth}" style="width: ${columnWidth}px; padding-right: ${columnPaddingRight}px;" dir="ltr" class="full padB30">
+  columns += `<td align="left" valign="top" width="${columnWidth}" style="width: ${columnWidth}px; padding-right: ${columnPaddingRight}px; padding-top: ${columnPaddingTop}; padding-bottom: ${columnPaddingBottom};" dir="ltr" class="full padB30">
                 ${buildEmailBodyFromArray(columnElement.childNodes[0].childNodes, nestedTableWidth)}
               </td>`;
  }

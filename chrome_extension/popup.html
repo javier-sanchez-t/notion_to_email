@@ -23,14 +23,32 @@
    Notion 2 HtmlEmail
   </div>
 
-  <button id="btn_convert" type="button" class="button">
-   Convert
+  <button id="btn_convert" type="button" class="btn_success">
+   Convert and download
   </button>
 
  </div>
 
+ <!-- The Modal -->
+ <div id="errorModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+   <div class="modal-header">
+    Ups!
+   </div>
+   <div class="modal-body">
+    <p id="errorMessage"></p>
+
+    <button id="close" type="button" class="btn_success">
+     Accept
+    </button>
+   </div>
+  </div>
+
+ </div>
+
  <script src="popup.js"></script>
- 
+
 </body>
 
 </html>
