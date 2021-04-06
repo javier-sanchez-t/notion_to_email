@@ -4,7 +4,7 @@ document.getElementById("btn_convert").addEventListener("click", function () {
 
       
       var hostname = tabs[0].url;
-      if(!hostname.toLowerCase().includes("www.notion.so")){
+      if(!hostname.toLowerCase().includes("www.notion.so") || response.toLowerCase().includes("error")){
         document.getElementById("errorMessage").textContent = "Make sure to use a notion page.";
         modal.style.display = "block";
         return;

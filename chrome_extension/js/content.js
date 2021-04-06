@@ -350,6 +350,11 @@ function notionToHtmlEmail() {
  email["[body]"] = buildEmailBodyFromArray(email["[body]"], email.width);
  email["[footer]"] = buildFooterFromArray(email["[footer]"], email.width);
 
+ if(!email["[subject]"] && !email["[preheader]"] && email["[body]"] && email["[footer]"]){
+  email["[body]"] = document.getElementsByClassName('notion-page-content')[0].childNodes;
+  email["[body]"] = buildEmailBodyFromArray(email["[body]"], email.width);
+ }
+
  var htmlEmail = `
     <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
     <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
