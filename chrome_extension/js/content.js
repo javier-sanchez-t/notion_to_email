@@ -307,7 +307,12 @@ function buildFooterFromArray(elementList, emailWidth) {
   }
  }
 
- var container = `<table class="w100pct" width="${emailWidth}" style="width: ${emailWidth}px;" border="0" cellpadding="0" cellspacing="0">
+ var container = ``;
+ if (rows.length > 0) {
+  container = `<tr>
+                 <td align="center" style="padding-bottom: 60px;">
+                  <!--FOOTER-->
+                  <table class="w100pct" width="${emailWidth}" style="width: ${emailWidth}px;" border="0" cellpadding="0" cellspacing="0">
                    <tr>
                     <td align="center" class="padL20 padR20">
                      <table class="w100pct" width="450" style="width: 450px;" border="0" cellpadding="0" cellspacing="0">
@@ -315,7 +320,11 @@ function buildFooterFromArray(elementList, emailWidth) {
                      </table>
                     </td>
                    </tr>
-                  </table>`;
+                  </table>
+                  <!--END OF FOOTER-->
+                 </td>
+                </tr>`;
+ }
 
  return container;
 }
@@ -350,7 +359,8 @@ function notionToHtmlEmail() {
  email["[body]"] = buildEmailBodyFromArray(email["[body]"], email.width);
  email["[footer]"] = buildFooterFromArray(email["[footer]"], email.width);
 
- if(!email["[subject]"] && !email["[preheader]"] && email["[body]"] && email["[footer]"]){
+ //if there is not tags, use the main content as body
+ if (!email["[subject]"] && !email["[preheader]"] && email["[body]"] && !email["[footer]"]) {
   email["[body]"] = document.getElementsByClassName('notion-page-content')[0].childNodes;
   email["[body]"] = buildEmailBodyFromArray(email["[body]"], email.width);
  }
@@ -455,13 +465,7 @@ function notionToHtmlEmail() {
            </td>
           </tr>
    
-          <tr>
-           <td align="center" style="padding-bottom: 60px;">
-            <!--FOOTER-->
-             ${email["[footer]"]}
-            <!--END OF FOOTER-->
-           </td>
-          </tr>
+          ${email["[footer]"]}
          </table>
          
         </td>
