@@ -7,6 +7,7 @@ document.getElementById("btn_convert").addEventListener("click", function () {
       if(!hostname.toLowerCase().includes("www.notion.so")){
         document.getElementById("errorMessage").textContent = "Make sure to use a notion page.";
         modal.style.display = "block";
+        return;
       }
 
       downloadFile("email.html", response);
