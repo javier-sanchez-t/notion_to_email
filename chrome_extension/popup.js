@@ -1,22 +1,3 @@
-document.getElementById("btn_convert").addEventListener("click", function () {  
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { type: "getText" }, function (response) {
-
-      
-      var hostname = tabs[0].url;
-      if(!hostname.toLowerCase().includes("www.notion.so") || response.toLowerCase().includes("error")){
-        document.getElementById("errorMessage").textContent = "Make sure to use a notion page.";
-        modal.style.display = "block";
-        return;
-      }
-
-      downloadFile("email.html", response);
-      
-    });
-  });
-});
-
-
 // Get the modal
 var modal = document.getElementById("errorModal");
 
@@ -34,6 +15,24 @@ window.onclick = function (event) {
 }
 
 
+document.getElementById("btn_convert").addEventListener("click", function () {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, { type: "getText" }, function (response) {
+
+      var hostname = tabs[0].url;
+      if (!hostname.includes("www.notion.so") || response.error) {
+        document.getElementById("errorTitle").textContent = "Sorry!";
+        document.getElementById("errorMessage").textContent = "This extension only works on Notion pages. Please try again.";
+        modal.style.display = "block";
+        return;
+      }
+
+      downloadFile(response.name + ".html", response.htmlCode);
+    });
+  });
+});
+
+
 function downloadFile(filename, text) {
   var element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -45,4 +44,3 @@ function downloadFile(filename, text) {
 
   document.body.removeChild(element);
 }
-

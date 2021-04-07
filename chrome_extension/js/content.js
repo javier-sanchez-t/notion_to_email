@@ -40,6 +40,17 @@ function getEmailWidth() {
 }
 
 
+function getEmailName() {
+ var emailName = 'email';
+ var name = document.getElementsByClassName("notion-scroller vertical horizontal")[0].childNodes[0].lastElementChild.lastElementChild;
+ if (name) {
+  emailName = name.textContent;
+ }
+
+ return emailName;
+}
+
+
 function getMainEmailContent() {
  var emailContent = document.getElementsByClassName('notion-page-content');
  if (emailContent) {
@@ -346,6 +357,9 @@ function downloadFile(filename, text) {
 function notionToHtmlEmail() {
  var email = {
   'width': 0,
+  'name': '',
+  'htmlCode': '',
+  'error': null,
   '[subject]': [],
   '[preheader]': [],
   '[body]': [],
@@ -353,6 +367,7 @@ function notionToHtmlEmail() {
  };
 
  email.width = getEmailWidth();
+ email.name = getEmailName();
  email = categorizeContent(getMainEmailContent(), email);
  email["[subject]"] = getPlainTextFromArray(email["[subject]"]);
  email["[preheader]"] = getPlainTextFromArray(email["[preheader]"]);
@@ -365,7 +380,7 @@ function notionToHtmlEmail() {
   email["[body]"] = buildEmailBodyFromArray(email["[body]"], email.width);
  }
 
- var htmlEmail = `
+ email.htmlCode = `
     <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
     <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
           
@@ -476,9 +491,9 @@ function notionToHtmlEmail() {
           
     </html>`;
 
- htmlEmail = html_beautify(htmlEmail, { "indent_size": 1, "indent_char": " ", "indent_with_tabs": false });
+ email.htmlCode = html_beautify(email.htmlCode, { "indent_size": 1, "indent_char": " ", "indent_with_tabs": false });
 
- return htmlEmail;
+ return email;
 }
 
 
@@ -487,6 +502,6 @@ chrome.runtime.onMessage.addListener(
   try {
    return sendResponse(notionToHtmlEmail());
   } catch (err) {
-   return sendResponse("error", err);
+   return sendResponse({ 'error': 'Unable to convert' });
   }
  });
