@@ -1,25 +1,35 @@
 
+:root {
+  --color-success: #00b382;
+  --color-success-2: #3b7068;
+  --color-error: #fc6f6a;
+  --main-bg-color: #f4faf9;
+}
+
 body{
     margin: 0;
     padding: 0;
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
 }
 
+/*MAIN INTERFACE*/
 .container{
     width: 220px;
-    background-color: #f4faf9;
+    background-color: var(--main-bg-color);
     text-align: center;
-    padding: 25px 15px 30px 15px;
+    padding: 0px 15px 0px 15px;
+    height: 370px;
 }
 
 .logo{
-  width: 150px;
+  width: 170px;
   height: auto;
-  margin-bottom: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .img_email{
-  width: 70px;
+  width: 90px;
   height: auto;
   margin-bottom: 5px;
 }
@@ -35,7 +45,14 @@ body{
 .description{
   font-size: 12px;
   line-height: 16px;
-  padding-bottom: 25px;
+  padding-bottom: 40px;
+}
+
+#needHelp{
+  color: var(--color-success); 
+  text-decoration: underline; 
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .btn_success{
@@ -44,34 +61,54 @@ body{
   font-weight: 600;
   border: 1px solid transparent;
   background-color: transparent;
-  border-color: #00b382;
+  border-color: var(--color-success);
   border-radius: 4px;
-  color: #00b382;
+  color: var(--color-success);
   padding: 4px 10px 4px 10px;
   font-size: 0.9em;
   padding: calc(8 * 0.25) 8;
   background-color: transparent;
-  border: 1px solid #00b382;
+  border: 1px solid var(--color-success);
   transition: all 0.2s ease;
 }
 
 .btn_success:hover{
-  background-color: #3b7068;
+  background-color: var(--color-success-2);
   border-color: #00342e;
   color: #ffffff;
 }
 
+.instructions{
+  font-size: 11px;
+  text-align: left;
+  padding-bottom: 10px;
+}
 
-/* The Modal (background) */
+.instructions div{
+  padding-bottom: 5px;
+}
+
+.instructions b{
+  font-size: 13px;
+}
+
+ul{
+  margin: 0;
+  padding: 0px 20px 0px 20px;
+}
+
+
+/*MODAL*/
+/* The modal (background) */
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
-  padding-top: 60px; /* Location of the box */
+  /*padding-top: 10px; /* Location of the box */
   left: 0;
   top: 0;
   width: 250px; /* Full width */
-  height: 260px; /* Full height */
+  height: 370px; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
@@ -82,6 +119,8 @@ body{
   position: relative;
   background-color: #fefefe;
   margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
   padding: 0;
   border: 1px solid #888;
   width: 80%;
@@ -103,12 +142,20 @@ body{
   to {top:0; opacity:1}
 }
 
-.modal-header {
+.errorModal-header {
   text-align: center;
   font-weight: bold;
   padding: 5px 16px;
-  background-color: #fc6f6a;;
-  color: white;
+  background-color: var(--color-error);
+  color: #ffffff;
+}
+
+.instructionsModal-header {
+  text-align: center;
+  font-weight: bold;
+  padding: 5px 16px;
+  background-color: var(--color-success-2);
+  color: #ffffff;
 }
 
 .modal-body {

@@ -3,7 +3,6 @@
 
 <head>
  <meta charset="utf-8">
- <meta http-equiv="X-UA-Compatible" content="IE=edge">
  <title>Notion 2 HtmlEmail</title>
  <meta name="viewport" content="width=device-width, initial-scale=1">
  <link rel="stylesheet" href="./css/styles.css">
@@ -23,30 +22,88 @@
    Notion 2 Html Email
   </div>
   <div class="description">
-   Seamlessly convert your Notion page layout to an html email template
+   Seamlessly convert your Notion page layout to an html email template. <br>
+   <span id="needHelp">Need help?</span>
   </div>
 
   <button id="btn_convert" type="button" class="btn_success">
    Convert and download
   </button>
-
  </div>
 
- <!-- The Modal -->
+ <!-- Error modal -->
  <div id="errorModal" class="modal">
-  <!-- Modal content -->
   <div class="modal-content">
-   <div id="errorTitle" class="modal-header">
-
+   <div class="errorModal-header">
+    Sorry!
    </div>
-   <div class="modal-body">
-    <p id="errorMessage"></p>
 
-    <button id="close" type="button" class="btn_success">
+   <div class="modal-body">
+    <p>
+     This extension only works on Notion pages. Please try again.
+    </p>
+
+    <button id="closeErrorBtn" type="button" class="btn_success">
      Close
     </button>
    </div>
   </div>
+ </div>
+
+
+ <!-- Instructions modal -->
+ <div id="instructionsModal" class="modal">
+  <div class="modal-content">
+   <div class="instructionsModal-header">
+    Help
+   </div>
+
+   <div class="modal-body">
+    <div class="instructions">
+     <p>Please follow this sample layout:</p>
+
+     <div>
+      <b>[subject]</b><br>
+      Lorem ipsum dolor sit amet
+     </div>
+
+     <div>
+      <b>[preheader]</b><br>
+      Lorem ipsum dolor sit amet
+     </div>
+
+     <div>
+      <b>[body]</b><br>
+      Lorem ipsum dolor sit amet
+     </div>
+
+     <div>
+      <b>[footer]</b><br>
+      Lorem ipsum dolor sit amet
+      <ul>
+       <li>
+        Facebook
+       </li>
+       <li>
+        Twitter
+       </li>
+      </ul>
+     </div>
+
+     <div id="noDisplayInstOption">
+      <input type="checkbox" id="noDisplayInst" name="noDisplayInst" value="no">
+      <label for="noDisplayInst"> Don't show again</label><br>
+     </div>
+
+    </div>
+
+    <button id="closeInstBtn" type="button" class="btn_success">
+     Close
+    </button>
+   </div>
+  </div>
+
+
  </div>
 
  <script src="popup.js"></script>

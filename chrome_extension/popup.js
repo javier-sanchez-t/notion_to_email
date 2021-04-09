@@ -1,29 +1,66 @@
-// Get the modal
-var modal = document.getElementById("errorModal");
+// Get the modal elements
+var errorModal = document.getElementById("errorModal");
+var instructionsModal = document.getElementById("instructionsModal");
 
-// Button that closes the modal
-var closeBtn = document.getElementById("close");
-closeBtn.onclick = function () {
-  modal.style.display = "none";
+// Button that closes the modals
+var closeErrorBtn = document.getElementById("closeErrorBtn");
+closeErrorBtn.onclick = function () {
+  errorModal.style.display = "none";
 }
 
-// When the user clicks anywhere outside of the modal, close it
+
+var closeInstBtn = document.getElementById("closeInstBtn");
+closeInstBtn.onclick = function () {
+  //if not help needed, save cookie to remember it
+  var noDisplayInst = document.getElementById("noDisplayInst").checked;
+  if (noDisplayInst) {
+    chrome.cookies.set({
+      url: "https://scalero.io/",
+      name: "displayHelp",
+      value: "false"
+    });
+  }
+  instructionsModal.style.display = "none";
+}
+
+
+//Help link
+var helpBtn = document.getElementById("needHelp");
+helpBtn.onclick = function () {
+  var noDisplayInstOption = document.getElementById("noDisplayInstOption");
+  noDisplayInstOption.style.display = "none";
+  instructionsModal.style.display = "block";
+}
+
+
+// When the user clicks anywhere outside of the errorModal, close it
 window.onclick = function (event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
+  if (event.target == errorModal) {
+    errorModal.style.display = "none";
+  } else if (event.target == instructionsModal) {
+    instructionsModal.style.display = "none";
   }
 }
 
+//instructionsModal.style.display = "block";
+//chrome.cookies.remove({"url": "https://scalero.io/", "name": "displayHelp"}, function(deleted_cookie) { alert(deleted_cookie); });
 
+//Display the window for help
+chrome.cookies.get({ "url": "https://scalero.io/", "name": "displayHelp" }, function (displayHelpCookie) {
+  if (!displayHelpCookie) {
+    instructionsModal.style.display = "block";
+  }
+});
+
+
+//Action for convert button
 document.getElementById("btn_convert").addEventListener("click", function () {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, { type: "getText" }, function (response) {
 
       var hostname = tabs[0].url;
       if (!hostname.includes("www.notion.so") || response.error) {
-        document.getElementById("errorTitle").textContent = "Sorry!";
-        document.getElementById("errorMessage").textContent = "This extension only works on Notion pages. Please try again.";
-        modal.style.display = "block";
+        errorModal.style.display = "block";
         return;
       }
 
