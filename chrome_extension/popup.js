@@ -42,7 +42,7 @@ window.onclick = function (event) {
   }
 }
 
-//instructionsModal.style.display = "block";
+instructionsModal.style.display = "block";
 //chrome.cookies.remove({"url": "https://scalero.io/", "name": "displayHelp"}, function(deleted_cookie) { alert(deleted_cookie); });
 
 //Display the window for help
