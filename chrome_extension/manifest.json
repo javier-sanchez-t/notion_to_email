@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Notion2HtmlEmail",
-    "description": "Convert your notion page into HTML email.",
+    "description": "Seamlessly convert your Notion page layout to an html email template.",
     "version": "0.0.0.1",
     "permissions" : ["tabs", "<all_urls>", "cookies"],
     "browser_action": {

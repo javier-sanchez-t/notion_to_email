@@ -2,6 +2,7 @@
 var errorModal = document.getElementById("errorModal");
 var instructionsModal = document.getElementById("instructionsModal");
 
+
 // Button that closes the modals
 var closeErrorBtn = document.getElementById("closeErrorBtn");
 closeErrorBtn.onclick = function () {
@@ -42,8 +43,6 @@ window.onclick = function (event) {
   }
 }
 
-instructionsModal.style.display = "block";
-//chrome.cookies.remove({"url": "https://scalero.io/", "name": "displayHelp"}, function(deleted_cookie) { alert(deleted_cookie); });
 
 //Display the window for help
 chrome.cookies.get({ "url": "https://scalero.io/", "name": "displayHelp" }, function (displayHelpCookie) {
