@@ -432,7 +432,7 @@ function notionToHtmlEmail() {
                   
        #bodyTable { height: 100% !important; margin: 0; padding: 0; width: 100% !important; }
           
-       @media only screen and (max-width: 420px){
+       @media only screen and (max-width: ${email.width}px){
         .noDisplay{ display: none; }
         .w100pct{ width: 100% !important; }
         .hAuto{ height: auto !important; }
