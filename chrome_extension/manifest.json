@@ -1,21 +1,21 @@
 {
-    "manifest_version": 2,
-    "name": "Notion2HtmlEmail",
-    "description": "Seamlessly convert your Notion page layout to an html email template.",
-    "version": "0.0.0.1",
-    "permissions" : ["tabs", "<all_urls>", "cookies"],
-    "browser_action": {
-      "default_popup": "popup.html",
-      "default_title": "Click here!"
-    },
-    "icons": {
-      "16": "assets/icon16.png",
-      "48": "assets/icon48.png",
-      "128": "assets/icon128.png"
-    },
-    "content_scripts": [
-    {
-      "matches": ["https://*/*"],
-      "js": ["js/beautify-html.js", "js/content.js"]
-    }]
-  }
+  "manifest_version": 2,
+  "name": "Notion2HtmlEmail",
+  "description": "Seamlessly convert your Notion page layout to an HTML email template.",
+  "version": "0.0.0.1",
+  "permissions" : ["https://www.notion.so/*", "cookies"],
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "Notion2HtmlEmail"
+  },
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
+  "content_scripts": [
+  {
+    "matches": ["https://www.notion.so/*"],
+    "js": ["js/beautify-html.js", "js/content.js"]
+  }]
+}

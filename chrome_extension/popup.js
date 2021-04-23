@@ -16,7 +16,7 @@ closeInstBtn.onclick = function () {
   var noDisplayInst = document.getElementById("noDisplayInst").checked;
   if (noDisplayInst) {
     chrome.cookies.set({
-      url: "https://scalero.io/",
+      url: "https://www.notion.so/",
       name: "displayHelp",
       value: "false"
     });
@@ -45,7 +45,7 @@ window.onclick = function (event) {
 
 
 //Display the window for help
-chrome.cookies.get({ "url": "https://scalero.io/", "name": "displayHelp" }, function (displayHelpCookie) {
+chrome.cookies.get({ "url": "https://www.notion.so/", "name": "displayHelp" }, function (displayHelpCookie) {
   if (!displayHelpCookie) {
     instructionsModal.style.display = "block";
   }
@@ -55,10 +55,15 @@ chrome.cookies.get({ "url": "https://scalero.io/", "name": "displayHelp" }, func
 //Action for convert button
 document.getElementById("btn_convert").addEventListener("click", function () {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { type: "getText" }, function (response) {
 
-      var hostname = tabs[0].url;
-      if (!hostname.includes("www.notion.so") || response.error) {
+    var hostname = tabs[0].url;
+    if (!hostname || !hostname.includes("www.notion.so")) {
+      errorModal.style.display = "block";
+      return;
+    }
+
+    chrome.tabs.sendMessage(tabs[0].id, { type: "getText" }, function (response) {
+      if (!response || response.error) {
         errorModal.style.display = "block";
         return;
       }
